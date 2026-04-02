@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Paper, DailyPlan, UserProgressOverview, Question, AIInsight } from "../types";
+import { Paper, DailyPlan, UserProgressOverview, Question, AIInsight, Subtopic } from "../types";
 import { MOCK_SYLLABUS, MOCK_TODAY_PLAN, MOCK_PROGRESS } from "./mock-data";
 
 // In Next.js, NEXT_PUBLIC_ env vars are inlined at build time.
@@ -132,5 +132,23 @@ export const getRandomQuestions = async (limit: number = 5): Promise<Question[]>
     return response.data;
   } catch (error) {
     return [];
+  }
+};
+export const getSubtopicDetails = async (subtopicId: string): Promise<Subtopic> => {
+  try {
+    const response = await apiClient.get(`/syllabus/subtopic/${subtopicId}`);
+    return response.data;
+  } catch (error) {
+    console.warn("Failed to fetch subtopic details from backend, using mock fallback.");
+    // Find subtopic in MOCK_SYLLABUS as fallback
+    for (const paper of MOCK_SYLLABUS) {
+      for (const subject of paper.subjects) {
+        for (const topic of subject.topics) {
+          const st = topic.subtopics.find(s => s.id === subtopicId);
+          if (st) return st;
+        }
+      }
+    }
+    throw error;
   }
 };

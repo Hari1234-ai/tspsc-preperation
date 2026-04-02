@@ -41,8 +41,11 @@ class Concept(Base):
     id = Column(String, primary_key=True, index=True)
     title = Column(String)
     content = Column(Text)
+    content_telugu = Column(Text, nullable=True)
     key_points = Column(JSON)  # List of strings
+    key_points_telugu = Column(JSON, nullable=True)
     examples = Column(JSON)    # List of strings
+    examples_telugu = Column(JSON, nullable=True)
     subtopic_id = Column(String, ForeignKey("subtopics.id"))
     subtopic = relationship("Subtopic", back_populates="concepts")
 

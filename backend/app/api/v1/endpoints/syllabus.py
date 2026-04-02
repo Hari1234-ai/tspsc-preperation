@@ -16,8 +16,10 @@ def get_syllabus_tree(exam_id: str = "Group_II", db: Session = Depends(get_db)):
     papers = query.all()
     return papers
 
+from app.services.content_generator import ContentGenerator
+
 @router.get("/subtopic/{subtopic_id}", response_model=SubtopicSchema)
-def get_subtopic_details(subtopic_id: str, db: Session = Depends(get_db)):
+async def get_subtopic_details(subtopic_id: str, db: Session = Depends(get_db)):
     # Fetch subtopic with full concepts for deep-dive
     subtopic = db.query(Subtopic).options(
         selectinload(Subtopic.concepts)
@@ -25,4 +27,14 @@ def get_subtopic_details(subtopic_id: str, db: Session = Depends(get_db)):
     
     if not subtopic:
         raise HTTPException(status_code=404, detail="Subtopic not found")
+        
+    # Content Pipeline: If content is missing or generic, trigger proper elaboration
+    generator = ContentGenerator(db)
+    for concept in subtopic.concepts:
+        if not concept.content_telugu or len(concept.content) < 200:
+            # Trigger "Proper Elaborated Content" generation
+            await generator.generate_deep_dive(concept.id, concept.title)
+            
+    # Refresh to get updated content if generation was successful
+    db.refresh(subtopic)
     return subtopic

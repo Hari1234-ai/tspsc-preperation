@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useState } from "react";
 import { TopicNavigator } from "@/components/navigation/TopicNavigator";
-import { getSyllabusTree, updateProgress, getAIExplanation } from "@/lib/api";
+import { getSyllabusTree, updateProgress, getAIExplanation, getSubtopicDetails } from "@/lib/api";
 import { Paper, Subtopic, Concept, AIInsight } from "@/types";
 import { 
   CheckCircle2, BookOpen, Clock, ChevronRight, Play, 
@@ -21,6 +21,7 @@ function StudyPageInner() {
   const [selectedSubtopic, setSelectedSubtopic] = useState<Subtopic | null>(null);
   const [isFocusMode, setIsFocusMode] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [contentLoading, setContentLoading] = useState<boolean>(false);
   const [globalLanguage, setGlobalLanguage] = useState<"english" | "telugu">("english");
 
   useEffect(() => {
@@ -31,7 +32,7 @@ function StudyPageInner() {
         setSyllabus(data);
         // Default to first subtopic if available
         if (data.length > 0 && data[0].subjects.length > 0 && data[0].subjects[0].topics.length > 0) {
-          setSelectedSubtopic(data[0].subjects[0].topics[0].subtopics[0]);
+          handleSelectSubtopic(data[0].subjects[0].topics[0].subtopics[0]);
         } else {
           setSelectedSubtopic(null);
         }
@@ -43,6 +44,20 @@ function StudyPageInner() {
     }
     fetchSyllabus();
   }, [selectedExamId]);
+
+  const handleSelectSubtopic = async (subtopic: Subtopic) => {
+    setSelectedSubtopic(subtopic);
+    setContentLoading(true);
+    try {
+      // Trigger "Proper Elaborated Content" generation on the backend
+      const details = await getSubtopicDetails(subtopic.id);
+      setSelectedSubtopic(details);
+    } catch (error) {
+      console.error("Error fetching elaborate content:", error);
+    } finally {
+      setContentLoading(false);
+    }
+  };
 
   const handleExamChange = (id: string) => {
     setSelectedExamId(id);
@@ -84,7 +99,7 @@ function StudyPageInner() {
               <TopicNavigator 
                 papers={syllabus}
                 selectedSubtopicId={selectedSubtopic?.id}
-                onSelectSubtopic={(st) => setSelectedSubtopic(st)}
+                onSelectSubtopic={handleSelectSubtopic}
                 selectedExamId={selectedExamId}
                 onSelectExam={handleExamChange}
               />
@@ -153,20 +168,35 @@ function StudyPageInner() {
               layout
               className="space-y-12"
             >
-              {selectedSubtopic.concepts.map((concept: Concept, index: number) => (
-                <motion.div
-                  key={concept.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <ConceptSection 
-                    concept={concept} 
-                    language={globalLanguage}
-                    onComplete={() => handleCompleteConcept(concept.id)}
-                  />
-                </motion.div>
-              ))}
+              {contentLoading ? (
+                <div className="space-y-8 animate-pulse">
+                  <div className="h-8 w-1/3 bg-muted rounded-xl" />
+                  <div className="space-y-4">
+                    <div className="h-4 w-full bg-muted rounded" />
+                    <div className="h-4 w-full bg-muted rounded" />
+                    <div className="h-4 w-3/4 bg-muted rounded" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="h-24 bg-muted rounded-2xl" />
+                    <div className="h-24 bg-muted rounded-2xl" />
+                  </div>
+                </div>
+              ) : (
+                selectedSubtopic.concepts.map((concept: Concept, index: number) => (
+                  <motion.div
+                    key={concept.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <ConceptSection 
+                      concept={concept} 
+                      language={globalLanguage}
+                      onComplete={() => handleCompleteConcept(concept.id)}
+                    />
+                  </motion.div>
+                ))
+              )}
               
               <div className="bg-primary/5 border border-primary/20 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="space-y-2 text-center md:text-left">
