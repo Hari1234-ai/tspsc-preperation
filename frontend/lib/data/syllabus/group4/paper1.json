@@ -1,0 +1,108 @@
+[
+  {
+    "id": "p1-g4",
+    "exam_id": "Group_IV",
+    "title": "Paper I: General Studies (Group IV)",
+    "subjects": [
+      {
+        "id": "gs4-1",
+        "title": "Current Affairs",
+        "topics": [
+          {
+            "id": "t1-g4-1",
+            "title": "National & International Events",
+            "weightage": "High",
+            "subtopics": [
+              {
+                "id": "st1-g4-1-1",
+                "title": "Important Personalities & Summits",
+                "progress": 0,
+                "concepts": [
+                  {
+                    "id": "c1-g4-1-1-1",
+                    "title": "Group IV Preparation Strategy",
+                    "content": "For Group IV, GS Paper I focuses on every-day life science, current affairs, and basic indian constitution. Detailed elaborated content includes the History of Telangana and the National Movement.",
+                    "content_telugu": "గ్రూప్ IV కోసం, GS పేపర్ I రోజువారీ లైఫ్ సైన్స్, వర్తమాన అంశాలు మరియు ప్రాథమిక భారత రాజ్యాంగంపై దృష్టి పెడుతుంది. వివరణాత్మక కంటెంట్‌లో తెలంగాణ చరిత్ర మరియు జాతీయ ఉద్యమం ఉన్నాయి.",
+                    "key_points": [
+                      "General Science in everyday life",
+                      "History of Telangana and Telangana Movement",
+                      "Indian National Movement",
+                      "Salient Features of Indian Constitution"
+                    ],
+                    "key_points_telugu": [
+                      "రోజువారీ జీవితంలో జనరల్ సైన్స్",
+                      "తెలంగాణ చరిత్ర మరియు తెలంగాణ ఉద్యమం",
+                      "భారత జాతీయ ఉద్యమం",
+                      "భారత రాజ్యాంగం యొక్క ముఖ్య లక్షణాలు"
+                    ],
+                    "examples": [
+                      "Modern Indian History basics",
+                      "Polity of Telangana state"
+                    ],
+                    "examples_telugu": [
+                      "ఆధునిక భారత చరిత్ర ప్రాథమిక విషయాలు",
+                      "తెలంగాణ రాష్ట్ర రాజకీయ వ్యవస్థ"
+                    ],
+                    "completed": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p2-g4",
+    "exam_id": "Group_IV",
+    "title": "Paper II: Secretarial Abilities",
+    "subjects": [
+      {
+        "id": "gs4-2",
+        "title": "Mental Ability & Reasoning",
+        "topics": [
+          {
+            "id": "t2-g4-1",
+            "title": "Numerical & Arithmetical Abilities",
+            "weightage": "High",
+            "subtopics": [
+              {
+                "id": "st2-g4-1-1",
+                "title": "Logical Reasoning & Comprehension",
+                "progress": 0,
+                "concepts": [
+                  {
+                    "id": "c2-g4-1-1-1",
+                    "title": "Secretarial Skills Overview",
+                    "content": "Mental ability, logical reasoning, and numerical skills form the core of Paper II. Elaborated practice is key for success in this section.",
+                    "content_telugu": "మెంటల్ ఎబిలిటీ, లాజికల్ రీజనింగ్ మరియు న్యూమరికల్ స్కిల్స్ పేపర్ II యొక్క కోర్. ఈ విభాగంలో విజయం సాధించడానికి లోతైన ప్రాక్టీస్ కీలకం.",
+                    "key_points": [
+                      "Verbal and Non-verbal Reasoning",
+                      "Comprehension & sentence rearrangement",
+                      "Numerical and Arithmetical abilities"
+                    ],
+                    "key_points_telugu": [
+                      "వెర్బల్ మరియు నాన్-వెర్బల్ రీజనింగ్",
+                      "కాంప్రహెన్షన్ మరియు సెంటెన్స్ రీఅరేంజ్‌మెంట్",
+                      "న్యూమరికల్ మరియు అర్థమెటికల్ ఎబిలిటీస్"
+                    ],
+                    "examples": [
+                      "Logical puzzles",
+                      "Data Interpretation"
+                    ],
+                    "examples_telugu": [
+                      "లాజికల్ పజిల్స్",
+                      "డేటా ఇంటర్‌ప్రెటేషన్"
+                    ],
+                    "completed": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

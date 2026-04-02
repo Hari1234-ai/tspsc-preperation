@@ -21,6 +21,7 @@ function StudyPageInner() {
   const [selectedSubtopic, setSelectedSubtopic] = useState<Subtopic | null>(null);
   const [isFocusMode, setIsFocusMode] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [globalLanguage, setGlobalLanguage] = useState<"english" | "telugu">("english");
 
   useEffect(() => {
     async function fetchSyllabus() {
@@ -102,27 +103,50 @@ function StudyPageInner() {
             <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground uppercase font-bold tracking-widest">
-                  <span>Paper II</span>
+                  <span>Study Material</span>
                   <ChevronRight className="h-4 w-4" />
-                  <span>Syllabus Content</span>
+                  <span>Bilingual Deep Dive</span>
                 </div>
                 <h1 className="text-4xl font-black tracking-tight">{selectedSubtopic.title}</h1>
               </div>
               
-              <button 
-                onClick={() => setIsFocusMode(!isFocusMode)}
-                className="flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-primary/10 hover:text-primary rounded-xl text-sm font-bold transition-all border border-border"
-              >
-                {isFocusMode ? (
-                  <>
-                    <Minimize2 className="h-4 w-4" /> Exit Focus
-                  </>
-                ) : (
-                  <>
-                    <Maximize2 className="h-4 w-4" /> Focus Mode
-                  </>
-                )}
-              </button>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-1 bg-card border border-border rounded-xl p-1 shadow-sm">
+                  <button 
+                    onClick={() => setGlobalLanguage("english")}
+                    className={cn(
+                      "px-4 py-2 rounded-lg text-xs font-bold transition-all",
+                      globalLanguage === "english" ? "bg-primary text-primary-foreground shadow-sm" : "hover:bg-secondary"
+                    )}
+                  >
+                    English
+                  </button>
+                  <button 
+                    onClick={() => setGlobalLanguage("telugu")}
+                    className={cn(
+                      "px-4 py-2 rounded-lg text-xs font-bold transition-all font-telugu",
+                      globalLanguage === "telugu" ? "bg-primary text-primary-foreground shadow-sm" : "hover:bg-secondary"
+                    )}
+                  >
+                    తెలుగు
+                  </button>
+                </div>
+
+                <button 
+                  onClick={() => setIsFocusMode(!isFocusMode)}
+                  className="flex items-center gap-2 px-4 py-2 bg-secondary hover:bg-primary/10 hover:text-primary rounded-xl text-sm font-bold transition-all border border-border"
+                >
+                  {isFocusMode ? (
+                    <>
+                      <Minimize2 className="h-4 w-4" /> Exit
+                    </>
+                  ) : (
+                    <>
+                      <Maximize2 className="h-4 w-4" /> Focus
+                    </>
+                  )}
+                </button>
+              </div>
             </header>
 
             <motion.section 
@@ -138,6 +162,7 @@ function StudyPageInner() {
                 >
                   <ConceptSection 
                     concept={concept} 
+                    language={globalLanguage}
                     onComplete={() => handleCompleteConcept(concept.id)}
                   />
                 </motion.div>
@@ -167,11 +192,10 @@ function StudyPageInner() {
   );
 }
 
-function ConceptSection({ concept, onComplete }: { concept: Concept, onComplete: () => void }) {
+function ConceptSection({ concept, language, onComplete }: { concept: Concept, language: "english" | "telugu", onComplete: () => void }) {
   const [aiData, setAiData] = useState<{ english: any, telugu: any } | null>(null);
   const [showAI, setShowAI] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
-  const [language, setLanguage] = useState<"english" | "telugu">("english");
 
   const handleFetchAI = async () => {
     if (aiData) {
@@ -190,6 +214,10 @@ function ConceptSection({ concept, onComplete }: { concept: Concept, onComplete:
     }
   };
 
+  const currentContent = language === "telugu" ? (concept.content_telugu || concept.content) : concept.content;
+  const currentKeyPoints = language === "telugu" ? (concept.key_points_telugu || concept.key_points) : concept.key_points;
+  const currentExamples = language === "telugu" ? (concept.examples_telugu || concept.examples) : concept.examples;
+
   return (
     <div className="relative pl-8 border-l-2 border-border mb-12 last:mb-0">
       <div 
@@ -204,7 +232,10 @@ function ConceptSection({ concept, onComplete }: { concept: Concept, onComplete:
       
       <div className="space-y-6 bg-card border border-border rounded-3xl p-8 shadow-sm hover:border-primary/30 transition-all">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <h2 className="text-2xl font-bold flex items-center gap-3">
+          <h2 className={cn(
+            "text-2xl font-bold flex items-center gap-3",
+            language === "telugu" && "font-telugu"
+          )}>
             {concept.title}
             {concept.completed && <span className="text-xs font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded-full">Completed</span>}
           </h2>
@@ -234,20 +265,6 @@ function ConceptSection({ concept, onComplete }: { concept: Concept, onComplete:
                   <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
                     <Lightbulb className="h-4 w-4" />
                     AI Intelligence Agent
-                  </div>
-                  <div className="flex items-center gap-1 bg-background/50 rounded-lg p-1 border border-border">
-                    <button 
-                      onClick={() => setLanguage("english")}
-                      className={cn("px-3 py-1 rounded-md text-xs font-bold transition-all", language === "english" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-primary")}
-                    >
-                      English
-                    </button>
-                    <button 
-                      onClick={() => setLanguage("telugu")}
-                      className={cn("px-3 py-1 rounded-md text-xs font-bold transition-all font-telugu", language === "telugu" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-primary")}
-                    >
-                      తెలుగు
-                    </button>
                   </div>
                 </div>
 
@@ -282,35 +299,36 @@ function ConceptSection({ concept, onComplete }: { concept: Concept, onComplete:
         </AnimatePresence>
 
         <div className="prose prose-slate dark:prose-invert max-w-none pt-2">
-          <p className="text-xl leading-relaxed text-muted-foreground font-medium">
-            {concept.content}
+          <p className={cn(
+            "text-lg leading-relaxed text-muted-foreground whitespace-pre-wrap",
+            language === "telugu" && "font-telugu leading-loose"
+          )}>
+            {currentContent}
           </p>
         </div>
         
-        {/* ... (rest of the component) */}
-
-        {concept.key_points && concept.key_points.length > 0 && (
+        {currentKeyPoints && currentKeyPoints.length > 0 && (
           <div className="space-y-4">
             <h4 className="text-xs font-black uppercase tracking-widest text-muted-foreground border-b border-border pb-2 w-fit">Key Aspects</h4>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {concept.key_points.map((point, i) => (
+              {currentKeyPoints.map((point: string, i: number) => (
                 <li key={i} className="flex items-start gap-4 p-4 bg-secondary/30 rounded-2xl text-sm font-semibold border border-border group hover:bg-primary/5 hover:border-primary/20 transition-all">
                   <div className="h-2 w-2 rounded-full bg-primary mt-1.5 shrink-0 group-hover:scale-125 transition-transform" />
-                  {point}
+                  <span className={cn(language === "telugu" && "font-telugu")}>{point}</span>
                 </li>
               ))}
             </ul>
           </div>
         )}
 
-        {concept.examples && concept.examples.length > 0 && (
+        {currentExamples && currentExamples.length > 0 && (
           <div className="space-y-4">
             <h4 className="text-xs font-black uppercase tracking-widest text-muted-foreground border-b border-border pb-2 w-fit">Quick Examples</h4>
             <div className="grid grid-cols-1 gap-4">
-              {concept.examples.map((ex, i) => (
+              {currentExamples.map((ex: string, i: number) => (
                 <div key={i} className="p-6 border border-dashed border-primary/20 bg-primary/5 rounded-2xl text-base italic font-serif relative">
                   <span className="absolute top-2 left-3 text-4xl text-primary/20 font-serif leading-none">“</span>
-                  {ex}
+                  <span className={cn(language === "telugu" && "font-telugu")}>{ex}</span>
                   <span className="absolute bottom-2 right-3 text-4xl text-primary/20 font-serif leading-none">”</span>
                 </div>
               ))}

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "p1-g3",
+    "exam_id": "Group_III",
+    "title": "Paper I: General Studies & General Abilities (Group III)",
+    "subjects": [
+      {
+        "id": "gs3-1",
+        "title": "Current Affairs - Regional, National & International",
+        "topics": [
+          {
+            "id": "t1-g3-1",
+            "title": "Current Events Overview",
+            "weightage": "High",
+            "subtopics": [
+              {
+                "id": "st1-g3-1-1",
+                "title": "Major Issues and Trends",
+                "progress": 0,
+                "concepts": [
+                  {
+                    "id": "c1-g3-1-1-1",
+                    "title": "Group III GS Introduction",
+                    "content": "For Group III examinations, Paper I focuses on General Studies and General Abilities, including detailed current affairs from 8th class standards to undergraduate level. Elaborated study includes environmental issues, disaster management, and the History and Cultural Heritage of India and Telangana.",
+                    "content_telugu": "గ్రూప్ III పరీక్షల కోసం, పేపర్ I జనరల్ స్టడీస్ మరియు జనరల్ ఎబిలిటీలపై దృష్టి పెడుతుంది, ఇందులో 8వ తరగతి సర్టిఫికెట్ల నుండి అండర్ గ్రాడ్యుయేట్ స్థాయి వరకు వివరణాత్మక వర్తమాన అంశాలు ఉంటాయి. పర్యావరణ సమస్యలు, విపత్తు నిర్వహణ మరియు భారతదేశం మరియు తెలంగాణ చరిత్ర మరియు సాంస్కృతిక వారసత్వం యొక్క అధ్యయనం ఇందులో ఉంటుంది.",
+                    "key_points": [
+                      "8th class standard basic English",
+                      "Environmental issues and Disaster Management",
+                      "History and Culture of India and Telangana",
+                      "Policies of Telangana State"
+                    ],
+                    "key_points_telugu": [
+                      "8వ తరగతి స్థాయి ప్రాథమిక ఇంగ్లీష్",
+                      "పర్యావరణ సమస్యలు మరియు విపత్తు నిర్వహణ",
+                      "భారతదేశం మరియు తెలంగాణ చరిత్ర మరియు సంస్కృతి",
+                      "తెలంగాణ రాష్ట్ర విధానాలు"
+                    ],
+                    "examples": [
+                      "Pollution Control Policies",
+                      "Telangana Water Grid (Mission Bhagiratha)"
+                    ],
+                    "examples_telugu": [
+                      "కాలుష్య నియంత్రణ విధానాలు",
+                      "తెలంగాణ వాటర్ గ్రిడ్ (మిషన్ భగీరథ)"
+                    ],
+                    "completed": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

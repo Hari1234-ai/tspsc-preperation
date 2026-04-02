@@ -5,8 +5,11 @@ export interface Concept {
   id: string;
   title: string;
   content: string;
+  content_telugu: string;
   key_points: string[];
+  key_points_telugu: string[];
   examples: string[];
+  examples_telugu: string[];
   completed: boolean;
 }
 

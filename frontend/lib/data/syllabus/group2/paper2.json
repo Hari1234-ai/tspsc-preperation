@@ -1,0 +1,138 @@
+[
+  {
+    "id": "p2",
+    "exam_id": "Group_II",
+    "title": "Paper II: History, Polity & Society",
+    "subjects": [
+      {
+        "id": "sub2-1",
+        "title": "Socio-Cultural History of India",
+        "topics": [
+          {
+            "id": "t2-1-1",
+            "title": "Indus Valley Civilization",
+            "weightage": "High",
+            "subtopics": [
+              {
+                "id": "st2-1-1-1",
+                "title": "Salient Features and Culture",
+                "progress": 0,
+                "concepts": [
+                  {
+                    "id": "c2-1-1-1-1",
+                    "title": "Town Planning and Society",
+                    "content": "The Indus Valley Civilization (IVC) is renowned for its sophisticated urban planning. Cities like Harappa and Mohenjo-Daro featured a grid system with wide streets intersecting at right angles. Elaborated features included the Citadel, the Great Bath, and the advanced drainage systems. The society was likely stratified into rulers, merchants, and workers, with a focus on trade and artisanal productivity. The use of standardized bricks and planned storage facilities (Granaries) indicates a strong centralized authority and economic surplus.",
+                    "content_telugu": "సింధూ లోయ నాగరికత (IVC) దాని అత్యాధునిక పట్టణ ప్రణాళికకు ప్రసిద్ధి చెందింది. హరప్పా మరియు మొహెంజో-దారో వంటి నగరాలు గ్రిడ్ వ్యవస్థను కలిగి ఉన్నాయి, వీధులు లంబ కోణంలో కలుస్తాయి. సిటాడెల్, గ్రేట్ బాత్ మరియు అధునాతన డ్రైనేజీ వ్యవస్థలు ఇక్కడ ఉన్న ప్రముఖ లక్షణాలు. సమాజం పాలకులు, వర్తకులు మరియు కార్మికులుగా విభజించబడి ఉండేది. అంతర్జాతీయ వాణిజ్యం మరియు వృత్తి పనులపై దృష్టి పెట్టారు. ప్రామాణిక ఇటుకలు మరియు ప్రణాళికాబద్ధమైన గిడ్డంగులు (గ్రేనరీలు) బలమైన కేంద్రీకృత అధికారాన్ని మరియు ఆర్థిక మిగులును సూచిస్తాయి.",
+                    "key_points": [
+                      "Grid system in urban planning",
+                      "Citadel and Lower Town distinction",
+                      "Advanced closed drainage systems",
+                      "Evidence of international trade (Seals)"
+                    ],
+                    "key_points_telugu": [
+                      "పట్టణ ప్రణాళికలో గ్రిడ్ వ్యవస్థ",
+                      "అప్పర్ టౌన్ (సిటాడెల్) మరియు లోయర్ టౌన్ విభజన",
+                      "అధునాతన క్లోజ్డ్ డ్రైనేజీ వ్యవస్థ",
+                      "అంతర్జాతీయ వాణిజ్యానికి ఆధారాలు (సీల్స్)"
+                    ],
+                    "examples": [
+                      "The Great Bath of Mohenjo-Daro",
+                      "Granaries at Harappa"
+                    ],
+                    "examples_telugu": [
+                      "మొహెంజో-దారో లోని గ్రేట్ బాత్",
+                      "హరప్పా లోని ధాన్యపు గిడ్డంగులు"
+                    ],
+                    "completed": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "t2-1-2",
+            "title": "Early and Later Vedic Civilizations",
+            "weightage": "High",
+            "subtopics": [
+              {
+                "id": "st2-1-2-1",
+                "title": "Society, Religion and Political Systems",
+                "progress": 0,
+                "concepts": [
+                  {
+                    "id": "c2-1-2-1-1",
+                    "title": "Vedic Society and Social Structure",
+                    "content": "The Vedic period is divided into Early Vedic (1500-1000 BCE) and Later Vedic (1000-600 BCE). Early Vedic society was semi-nomadic and pastoral, with the Rig Veda as the primary source. The social structure was relatively egalitarian, though the concept of 'Varna' (based on occupation) began to emerge. In the Later Vedic period, the society became more settled and agrarian. The Varna system solidified into a rigid caste hierarchy (Brahmanas, Kshatriyas, Vaishyas, Shudras). The position of women, which was respected in the Early Vedic age, saw a decline in the Later Vedic period. Sacrifice (Yajna) became the central religious practice, moving from simple prayers to complex rituals dominated by the priestly class.",
+                    "content_telugu": "వైదిక కాలాన్ని తొలి వేద కాలం (క్రీ.పూ. 1500-1000) మరియు మలి వేద కాలం (క్రీ.పూ. 1000-600) అని విభజించవచ్చు. తొలి వేద కాలంలో సమాజం ప్రధానంగా పశుపోషణపై ఆధారపడి, పాక్షికంగా సంచార జీవనం గడిపేది. ఋగ్వేదం దీనికి ప్రధాన మూలం. సామాజిక నిర్మాణం సాపేక్షంగా సమానత్వంతో కూడి ఉండేది, కానీ 'వర్ణ' (వృత్తి ఆధారంగా) భావన అప్పుడే ప్రారంభమైంది. మలి వేద కాలంలో, సామాజిక వ్యవస్థ స్థిరపడి వ్యవసాయంపై ఆధారపడింది. వర్ణ వ్యవస్థ ఒక దృఢమైన కుల సోపానక్రమంగా (బ్రాహ్మణ, క్షత్రియ, వైశ్య, శూద్ర) మారింది. తొలి వేద కాలంలో గౌరవించబడిన స్త్రీల స్థానం, మలి వేద కాలంలో క్షీణించింది. యజ్ఞాలు మరియు యాగాలు కేంద్ర మతపరమైన ఆచారాలుగా మారాయి.",
+                    "key_points": [
+                      "Rig Veda as early source; Yajur, Sama, Atharva for later",
+                      "Transition from pastoral to settled agrarian economy",
+                      "Emergence of the Varna system",
+                      "Decline in female status in later period"
+                    ],
+                    "key_points_telugu": [
+                      "ఋగ్వేదం తొలి ఆధార గ్రంథం; యజుర్, సామ, అథర్వ వేదాలు మలి వేద కాలానికి చెందినవి",
+                      "పశుపోషణ నుండి స్థిర వ్యవసాయ ఆర్థిక వ్యవస్థకు మార్పు",
+                      "వర్ణ వ్యవస్థ ఆవిర్భావం",
+                      "మలి వేద కాలంలో స్త్రీల సామాజిక హోదా క్షీణత"
+                    ],
+                    "examples": [
+                      "Sabha and Samiti (Tribal Assemblies)",
+                      "Importance of 'Gau' (Cow) in early society"
+                    ],
+                    "examples_telugu": [
+                      "సభ మరియు సమితి (గోత్ర సమూహాలు)",
+                      "తొలి సమాజంలో 'గోవు' (ఆవు) ప్రాముఖ్యత"
+                    ],
+                    "completed": false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "t2-1-3",
+            "title": "Religious Movements in 6th Century B.C.",
+            "weightage": "High",
+            "subtopics": [
+              {
+                "id": "st2-1-3-1",
+                "title": "Jainism and Buddhism",
+                "progress": 0,
+                "concepts": [
+                  {
+                    "id": "c2-1-3-1-1",
+                    "title": "Rise of New Religions",
+                    "content": "The 6th century BCE was a period of great religious and intellectual ferment in India. The rigid caste system and complex rituals of the Later Vedic period led to the rise of protest religions like Jainism and Buddhism. Both religions challenged the authority of the Vedas and the dominance of the priestly class. Buddhism, founded by Gautama Buddha, preached the 'Middle Path' and focus on the Four Noble Truths to end suffering (Nirvana). Jainism, propagated by the Tirthankaras (most notably Mahavira), emphasized extreme non-violence (Ahimsa) and the five vows (Mahavratas). These movements were supported by the emerging merchant class (Vaishyas) and kings who sought a more inclusive social order.",
+                    "content_telugu": "క్రీ.పూ. 6వ శతాబ్దం భారతదేశ చరిత్రలో గొప్ప మతపరమైన మరియు మేధోపరమైన సంచలన కాలం. మలి వేద కాలంలోని దృఢమైన కుల వ్యవస్థ మరియు సంక్లిష్టమైన ఆచారాలకు వ్యతిరేకతగా జైన మరియు బౌద్ధమతాలు ఆవిర్భవించాయి. ఈ రెండు మతాలు వేదాల అధికారాన్ని మరియు అర్చక వర్గం యొక్క ఆధిపత్యాన్ని సవాలు చేశాయి. గౌతమ బుద్ధుడు స్థాపించిన బౌద్ధ మతం, బాధల నుండి విముక్తి పొందేందుకు 'మధ్యేమార్గం' మరియు 'నాలుగు ఆర్య సత్యాల'ను బోధించింది. తీర్థంకరులచే (ముఖ్యంగా మహావీరుడు) ప్రచారం చేయబడిన జైనమతం, పరమ అహింసను మరియు ఐదు వ్రతాలను (మహావ్రతాలు) నొక్కి చెప్పింది. ఈ మతాలకు అప్పటి వర్తక వర్గం (వైశ్యులు) మరియు రాజుల నుండి గొప్ప మద్దతు లభించింది.",
+                    "key_points": [
+                      "Reaction against Vedic ritualism and caste rigidity",
+                      "Preaching in common languages (Prakrit for Jainism, Pali for Buddhism)",
+                      "Universal accessibility regardless of caste",
+                      "Impact on art, architecture (Stupas), and literature"
+                    ],
+                    "key_points_telugu": [
+                      "వేద కర్మకాండలు మరియు కుల వ్యవస్థపై తిరుగుబాటు",
+                      "సామాన్య భాషలలో ప్రబోధాలు (జైన మతం ప్రాకృతంలో, బౌద్ధ మతం పాలి భాషలో)",
+                      "కుల మతాలకు అతీతంగా అందరికీ ప్రవేశం",
+                      "కళలు, వాస్తుశిల్పం (స్తూపాలు) మరియు సాహిత్యంపై ప్రభావం"
+                    ],
+                    "examples": [
+                      "Sanchi Stupa as masterpiece of Buddhist architecture",
+                      "Dilwara Temples (Jainism)"
+                    ],
+                    "examples_telugu": [
+                      "బౌద్ధ వాస్తుశిల్పానికి అద్దం పట్టే సాంచీ స్తూపం",
+                      "దిల్వారా జైన దేవాలయాలు"
+                    ],
+                    "completed": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

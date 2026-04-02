@@ -1,0 +1,103 @@
+[
+  {
+    "id": "p1",
+    "exam_id": "Group_II",
+    "title": "Paper I: General Studies & General Abilities",
+    "subjects": [
+      {
+        "id": "gs1-1",
+        "title": "Current Affairs & Events",
+        "topics": [
+          {
+            "id": "t1-1-1",
+            "title": "National & International events",
+            "weightage": "High",
+            "subtopics": [
+              {
+                "id": "st1-1-1-1",
+                "title": "Regional, National & International importance",
+                "progress": 0,
+                "concepts": [
+                  {
+                    "id": "c1-1-1-1-1",
+                    "title": "Introduction to Current Affairs",
+                    "content": "Current affairs involve events of regional, national, and international importance that shape the contemporary world. For TSPSC, special focus is placed on Telangana's state initiatives, India's national policies, and global diplomatic events. Elaborated study includes tracking G20 summits, climate change conferences (COP), and major bilateral agreements. In both English and Telugu, candidates must understand the socio-economic impact of these events on the governance and development of the region.",
+                    "content_telugu": "వర్తమాన అంశాలు (కరెంట్ అఫైర్స్) ప్రాంతీయ, జాతీయ మరియు అంతర్జాతీయ ప్రాముఖ్యత కలిగిన సంఘటనలను కలిగి ఉంటాయి, ఇవి సమకాలీన ప్రపంచాన్ని రూపొందిస్తాయి. TSPSC కోసం, తెలంగాణ రాష్ట్ర కార్యక్రమాలు, భారతదేశ జాతీయ విధానాలు మరియు ప్రపంచ దౌత్యపరమైన సంఘటనలపై ప్రత్యేక దృష్టి పెట్టాలి. G20 శిఖరాగ్ర సమావేశాలు, వాతావరణ మార్పుల సదస్సులు (COP) మరియు ప్రధాన ద్వైపాక్షిక ఒప్పందాలను ట్రాక్ చేయడం ఇందులో ఉంటుంది. ఇంగ్లీష్ మరియు తెలుగు రెండింటిలోనూ, అభ్యర్థులు ఈ సంఘటనల యొక్క సామాజిక-ఆర్థిక ప్రభావాన్ని అర్థం చేసుకోవాలి.",
+                    "key_points": [
+                      "Regional, National and International importance",
+                      "Impact on socio-economic development",
+                      "Key personalities and awards",
+                      "Major sporting events and venues"
+                    ],
+                    "key_points_telugu": [
+                      "ప్రాంతీయ, జాతీయ మరియు అంతర్జాతీయ ప్రాముఖ్యత",
+                      "సామాజిక-ఆర్థిక అభివృద్ధిపై ప్రభావం",
+                      "ముఖ్యమైన వ్యక్తులు మరియు అవార్డులు",
+                      "ప్రధాన క్రీడా ఈవెంట్‌లు మరియు వేదికలు"
+                    ],
+                    "examples": [
+                      "NASA-ISRO NISAR Mission",
+                      "Telangana state-level schemes like Rythu Bandhu"
+                    ],
+                    "examples_telugu": [
+                      "NASA-ISRO నిసార్ మిషన్",
+                      "రైతు బంధు వంటి తెలంగాణ రాష్ట్ర స్థాయి పథకాలు"
+                    ],
+                    "completed": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "gs1-2",
+        "title": "General Science & Technology",
+        "topics": [
+          {
+            "id": "t1-2-1",
+            "title": "India's achievements in S&T",
+            "weightage": "Medium",
+            "subtopics": [
+              {
+                "id": "st1-2-1-1",
+                "title": "Space and Nuclear Energy",
+                "progress": 0,
+                "concepts": [
+                  {
+                    "id": "c1-2-1-1-1",
+                    "title": "ISRO and Space Frontier",
+                    "content": "India has made remarkable strides in Science and Technology, particularly in space exploration through ISRO. Elaborated milestones include the Chandrayaan-3 mission, the Mars Orbiter Mission (Mangalyaan), and the upcoming Gaganyaan human spaceflight. India's nuclear program, focused on three-stage development using Thorium, is also a key area of study. Bilingual knowledge helps in understanding technical terms in both English and Telugu for better retention during competitive exams.",
+                    "content_telugu": "భారతదేశం సైన్స్ అండ్ టెక్నాలజీలో గొప్ప పురోగతిని సాధించింది, ముఖ్యంగా ఇస్రో (ISRO) ద్వారా అంతరిక్ష పరిశోధనలో. చంద్రయాన్-3 మిషన్, మంగళయాన్ మరియు రాబోయే గగన్‌యాన్ వంటి మైలురాళ్లు ఇందులో ప్రముఖమైనవి. థోరియంను ఉపయోగించి మూడు దశల అభివృద్ధిపై దృష్టి సారించిన భారతదేశ అణు కార్యక్రమం కూడా అధ్యయనం చేయవలసిన ప్రధాన అంశం. పోటీ పరీక్షల సమయంలో మెరుగైన జ్ఞాపకశక్తి కోసం సాంకేతిక పదాలను ఇంగ్లీష్ మరియు తెలుగు రెండింటిలోనూ అర్థం చేసుకోవడం సహాయపడుతుంది.",
+                    "key_points": [
+                      "Indigenous space missions (Chandrayaan, Mangalyaan)",
+                      "Nuclear energy for peaceful purposes",
+                      "Information Technology and Digital India",
+                      "Biotechnology and Health innovations"
+                    ],
+                    "key_points_telugu": [
+                      "స్వదేశీ అంతరిక్ష యాత్రలు (చంద్రయాన్, మంగళయాన్)",
+                      "శాంతియుత ప్రయోజనాల కోసం అణుశక్తి",
+                      "ఇన్ఫర్మేషన్ టెక్నాలజీ మరియు డిజిటల్ ఇండియా",
+                      "బయోటెక్నాలజీ మరియు ఆరోగ్య రంగంలో ఆవిష్కరణలు"
+                    ],
+                    "examples": [
+                      "PSLV and GSLV rocket families",
+                      "Indigenous COVID-19 vaccine (Covaxin)"
+                    ],
+                    "examples_telugu": [
+                      "PSLV మరియు GSLV రాకెట్ కుటుంబాలు",
+                      "స్వదేశీ కోవిడ్-19 వ్యాక్సిన్ (కోవాక్సిన్)"
+                    ],
+                    "completed": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
