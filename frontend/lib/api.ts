@@ -1,7 +1,11 @@
 import axios from "axios";
 import { Paper, DailyPlan, UserProgressOverview, Question, AIInsight } from "../types";
 
+// In Next.js, NEXT_PUBLIC_ env vars are inlined at build time.
+// Using type assertion avoids needing @types/node for `process`.
+declare const process: { env: Record<string, string | undefined> };
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
