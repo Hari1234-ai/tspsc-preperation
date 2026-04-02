@@ -5,15 +5,7 @@ import { Trophy, HelpCircle, Layers, Settings2, Sparkles, ChevronRight, CheckCir
 import { cn } from "@/lib/utils";
 import { getRandomQuestions } from "@/lib/api";
 import { motion, AnimatePresence } from "framer-motion";
-
-interface Question {
-  id: string;
-  type: string;
-  question_text: string;
-  options: any;
-  correct_answer: string;
-  explanation: string;
-}
+import { Question } from "@/types";
 
 export default function PracticeHub() {
   const [activeTab, setActiveTab] = useState<"quizzes" | "flashcards" | "revision">("quizzes");
@@ -48,11 +40,11 @@ export default function PracticeHub() {
     setSelectedAnswer(answer);
     const correct = answer === questions[currentIndex].correct_answer;
     setIsCorrect(correct);
-    if (correct) setScore(s => s + 1);
+    if (correct) setScore((s: number) => s + 1);
 
     setTimeout(() => {
       if (currentIndex < questions.length - 1) {
-        setCurrentIndex(i => i + 1);
+        setCurrentIndex((i: number) => i + 1);
         setSelectedAnswer(null);
         setIsCorrect(null);
       } else {

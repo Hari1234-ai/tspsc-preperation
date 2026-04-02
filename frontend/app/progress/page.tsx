@@ -66,7 +66,7 @@ export default function ProgressPage() {
             { id: "Group_II", label: "Group II" },
             { id: "Group_III", label: "Group III" },
             { id: "Group_IV", label: "Group IV" },
-          ].map((exam) => (
+          ].map((exam: { id: string, label: string }) => (
             <button
               key={exam.id}
               onClick={() => handleExamChange(exam.id)}
@@ -126,7 +126,7 @@ export default function ProgressPage() {
             <h3 className="text-xl font-bold mb-6">Mastery Heatmap</h3>
             <div className="grid grid-cols-12 gap-2 opacity-30">
               {/* Mock Heatmap */}
-              {Array.from({ length: 36 }).map((_, i) => (
+              {Array.from({ length: 36 }).map((_: any, i: number) => (
                 <div key={i} className={cn(
                   "aspect-square rounded-sm border border-border/50",
                   i % 3 === 0 ? "bg-primary/20" : i % 5 === 0 ? "bg-primary/40" : i % 7 === 0 ? "bg-primary" : "bg-secondary"
@@ -145,7 +145,7 @@ export default function ProgressPage() {
               Critical Redos
             </h3>
             <div className="space-y-4">
-              {(progress?.weakAreas || []).map((area, i) => (
+              {(progress?.weakAreas || []).map((area: string, i: number) => (
                 <div key={i} className="flex flex-col gap-1 p-3 bg-white dark:bg-black/20 rounded-xl border border-red-100 dark:border-red-900/40">
                   <span className="text-sm font-bold truncate">{area}</span>
                   <div className="h-1 w-full bg-red-100 rounded-full mt-1">
@@ -162,7 +162,7 @@ export default function ProgressPage() {
               Top Strengths
             </h3>
             <div className="space-y-4">
-              {(progress?.strongAreas || []).map((area, i) => (
+              {(progress?.strongAreas || []).map((area: string, i: number) => (
                 <div key={i} className="flex items-center justify-between p-3 bg-white dark:bg-black/20 rounded-xl border border-green-100 dark:border-green-900/40">
                   <span className="text-sm font-bold truncate">{area}</span>
                   <ChevronRight className="h-4 w-4 text-green-500" />

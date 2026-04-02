@@ -146,10 +146,10 @@ export default function Dashboard() {
           </h2>
           <div className="flex p-1 bg-secondary/50 rounded-xl border border-border/50">
             {[
-              { id: "Group_II", label: "GII" },
-              { id: "Group_III", label: "GIII" },
-              { id: "Group_IV", label: "GIV" },
-            ].map((e) => (
+              {id: "Group_II", label: "GII"},
+              {id: "Group_III", label: "GIII"},
+              {id: "Group_IV", label: "GIV"},
+            ].map((e: { id: string, label: string }) => (
               <button 
                 key={e.id}
                 onClick={() => setSelectedExamId(e.id)}
@@ -258,7 +258,7 @@ export default function Dashboard() {
               Focus Areas
             </h2>
             <div className="space-y-3">
-              {(progress?.weakAreas || []).map((area, i) => (
+              {(progress?.weakAreas || []).map((area: string, i: number) => (
                 <div key={i} className="flex items-center gap-2 text-sm text-amber-700 dark:text-amber-400">
                   <div className="h-1.5 w-1.5 rounded-full bg-amber-500" />
                   {area}

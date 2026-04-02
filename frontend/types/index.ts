@@ -75,3 +75,24 @@ export interface UserProgressOverview {
   strongAreas: string[];
   topicWiseProgress: TopicProgress[];
 }
+
+// Practice Hub Types
+export interface Question {
+  id: string;
+  type: "mcq" | "true_false" | "matching";
+  question_text: string;
+  options: string[] | { Left: string[]; Right: string[] };
+  correct_answer: string;
+  explanation: string;
+}
+
+// AI Service Types
+export interface AISimplified {
+  simplified: string;
+  mnemonic: string;
+}
+
+export interface AIInsight {
+  english: AISimplified;
+  telugu: AISimplified;
+}

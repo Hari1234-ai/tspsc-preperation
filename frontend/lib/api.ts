@@ -1,7 +1,7 @@
 import axios from "axios";
-import { Paper, DailyPlan, UserProgressOverview } from "../types";
+import { Paper, DailyPlan, UserProgressOverview, Question, AIInsight } from "../types";
 
-const API_BASE_URL = "http://localhost:8000/api/v1";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -35,7 +35,7 @@ export const updateProgress = async (
   accuracy: number = 0.0,
   timeSpent: number = 0,
   userId: string = "default_user"
-) => {
+): Promise<any> => {
   const response = await apiClient.post("/progress/update", null, {
     params: {
       item_id: itemId,
@@ -49,17 +49,17 @@ export const updateProgress = async (
   return response.data;
 };
 
-export const getAIExplanation = async (conceptId: string, language: string = "en"): Promise<any> => {
+export const getAIExplanation = async (conceptId: string, language: string = "en"): Promise<AIInsight> => {
   const response = await apiClient.get(`/ai/explain?concept_id=${conceptId}&lang=${language}`);
   return response.data;
 };
 
-export const getTopicQuestions = async (topicId: string): Promise<any[]> => {
+export const getTopicQuestions = async (topicId: string): Promise<Question[]> => {
   const response = await apiClient.get(`/practice/questions/${topicId}`);
   return response.data;
 };
 
-export const getRandomQuestions = async (limit: number = 5): Promise<any[]> => {
+export const getRandomQuestions = async (limit: number = 5): Promise<Question[]> => {
   const response = await apiClient.get(`/practice/questions/random?limit=${limit}`);
   return response.data;
 };

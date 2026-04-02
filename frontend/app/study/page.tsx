@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { TopicNavigator } from "@/components/navigation/TopicNavigator";
 import { getSyllabusTree, updateProgress, getAIExplanation } from "@/lib/api";
-import { Paper, Subtopic, Concept } from "@/types";
+import { Paper, Subtopic, Concept, AIInsight } from "@/types";
 import { 
   CheckCircle2, BookOpen, Clock, ChevronRight, Play, 
   Maximize2, Minimize2, Sparkles, Languages, Lightbulb 
@@ -16,11 +16,11 @@ import { useSearchParams, useRouter } from "next/navigation";
 export default function StudyPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [selectedExamId, setSelectedExamId] = useState(searchParams.get("exam") || "Group_II");
+  const [selectedExamId, setSelectedExamId] = useState<string>(searchParams.get("exam") || "Group_II");
   const [syllabus, setSyllabus] = useState<Paper[]>([]);
   const [selectedSubtopic, setSelectedSubtopic] = useState<Subtopic | null>(null);
-  const [isFocusMode, setIsFocusMode] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isFocusMode, setIsFocusMode] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function fetchSyllabus() {
@@ -129,7 +129,7 @@ export default function StudyPage() {
               layout
               className="space-y-12"
             >
-              {selectedSubtopic.concepts.map((concept, index) => (
+              {selectedSubtopic.concepts.map((concept: Concept, index: number) => (
                 <motion.div
                   key={concept.id}
                   initial={{ opacity: 0, y: 20 }}
