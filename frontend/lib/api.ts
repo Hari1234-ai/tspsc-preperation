@@ -188,3 +188,77 @@ export const updateTopicContent = async (topicId: string, content: string, conte
     throw error;
   }
 };
+
+// --- SYLLABUS MANAGEMENT (CRUD) ---
+
+export const createSubject = async (title: string, paperId: string, orderIndex: number = 0): Promise<any> => {
+  try {
+    const response = await apiClient.post(`/syllabus/subjects`, {
+      title,
+      paper_id: paperId,
+      order_index: orderIndex,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to create subject", error);
+    throw error;
+  }
+};
+
+export const createTopic = async (title: string, subjectId: string, orderIndex: number = 0): Promise<any> => {
+  try {
+    const response = await apiClient.post(`/syllabus/topics`, {
+      title,
+      subject_id: subjectId,
+      order_index: orderIndex,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to create topic", error);
+    throw error;
+  }
+};
+
+export const createSubtopic = async (title: string, topicId: string, orderIndex: number = 0): Promise<any> => {
+  try {
+    const response = await apiClient.post(`/syllabus/subtopics`, {
+      title,
+      topic_id: topicId,
+      order_index: orderIndex,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to create subtopic", error);
+    throw error;
+  }
+};
+
+export const deleteSubject = async (subjectId: string): Promise<any> => {
+  try {
+    const response = await apiClient.delete(`/syllabus/subjects/${subjectId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to delete subject", error);
+    throw error;
+  }
+};
+
+export const deleteTopic = async (topicId: string): Promise<any> => {
+  try {
+    const response = await apiClient.delete(`/syllabus/topics/${topicId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to delete topic", error);
+    throw error;
+  }
+};
+
+export const deleteSubtopic = async (subtopicId: string): Promise<any> => {
+  try {
+    const response = await apiClient.delete(`/syllabus/subtopics/${subtopicId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to delete subtopic", error);
+    throw error;
+  }
+};

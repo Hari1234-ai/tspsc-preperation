@@ -31,8 +31,10 @@ class SubtopicBase(BaseModel):
     title: str
     progress: float = 0.0
 
-class SubtopicCreate(SubtopicBase):
-    pass
+class SubtopicCreate(BaseModel):
+    title: str
+    topic_id: str
+    order_index: Optional[int] = 0
 
 class SubtopicSchema(SubtopicBase):
     concepts: List[ConceptSchema]
@@ -48,8 +50,11 @@ class TopicBase(BaseModel):
     title: str
     weightage: str # High, Medium, Low
 
-class TopicCreate(TopicBase):
-    pass
+class TopicCreate(BaseModel):
+    title: str
+    subject_id: str
+    weightage: Optional[str] = "High"
+    order_index: Optional[int] = 0
 
 class TopicSchema(TopicBase):
     subtopics: List[SubtopicSchema]
@@ -61,8 +66,10 @@ class SubjectBase(BaseModel):
     id: str
     title: str
 
-class SubjectCreate(SubjectBase):
-    pass
+class SubjectCreate(BaseModel):
+    title: str
+    paper_id: str
+    order_index: Optional[int] = 0
 
 class SubjectSchema(SubjectBase):
     topics: List[TopicSchema]

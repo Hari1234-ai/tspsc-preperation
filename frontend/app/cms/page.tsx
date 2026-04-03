@@ -1,7 +1,17 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { getSyllabusTree, updateSubtopicContent, updateTopicContent } from "@/lib/api";
+import { 
+  getSyllabusTree, 
+  updateSubtopicContent, 
+  updateTopicContent,
+  createSubject,
+  createTopic,
+  createSubtopic,
+  deleteSubject,
+  deleteTopic,
+  deleteSubtopic
+} from "@/lib/api";
 import { Paper, Subject, Topic, Subtopic } from "@/types";
 import { 
   Save, 
@@ -11,7 +21,10 @@ import {
   AlertCircle,
   Loader2,
   ChevronRight,
-  LayoutDashboard
+  LayoutDashboard,
+  Plus,
+  Trash2,
+  X
 } from "lucide-react";
 
 export default function CMSPage() {
@@ -31,16 +44,25 @@ export default function CMSPage() {
   const [contentEn, setContentEn] = useState("");
   const [contentTe, setContentTe] = useState("");
 
+  // CRUD UI state
+  const [addingType, setAddingType] = useState<"subject" | "topic" | "subtopic" | null>(null);
+  const [newItemName, setNewItemName] = useState("");
+  const [crudLoading, setCrudLoading] = useState(false);
+
+  const refreshSyllabus = async () => {
+    try {
+      const data = await getSyllabusTree("Group_II");
+      setPapers(data);
+    } catch (err) {
+      setError("Failed to refresh syllabus.");
+    }
+  };
+
   useEffect(() => {
     async function fetchData() {
-      try {
-        const data = await getSyllabusTree("Group_II");
-        setPapers(data);
-      } catch (err) {
-        setError("Failed to load syllabus. Please check if the backend is running.");
-      } finally {
-        setLoading(false);
-      }
+      setLoading(true);
+      await refreshSyllabus();
+      setLoading(false);
     }
     fetchData();
   }, []);
@@ -68,6 +90,51 @@ export default function CMSPage() {
       setError("Failed to update content. Please try again.");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleAddItem = async () => {
+    if (!newItemName) return;
+    setCrudLoading(true);
+    try {
+      if (addingType === "subject" && selectedPaper) {
+        await createSubject(newItemName, selectedPaper);
+      } else if (addingType === "topic" && selectedSubject) {
+        await createTopic(newItemName, selectedSubject);
+      } else if (addingType === "subtopic" && selectedTopic) {
+        await createSubtopic(newItemName, selectedTopic);
+      }
+      setNewItemName("");
+      setAddingType(null);
+      await refreshSyllabus();
+      setSuccess(`New ${addingType} added successfully!`);
+    } catch (err) {
+      setError("Failed to add new item.");
+    } finally {
+      setCrudLoading(false);
+    }
+  };
+
+  const handleDeleteItem = async (type: "subject" | "topic" | "subtopic", id: string) => {
+    if (!confirm(`Are you sure you want to delete this ${type}? This will delete all child content.`)) return;
+    setCrudLoading(true);
+    try {
+      if (type === "subject") {
+        await deleteSubject(id);
+        setSelectedSubject("");
+      } else if (type === "topic") {
+        await deleteTopic(id);
+        setSelectedTopic("");
+      } else if (type === "subtopic") {
+        await deleteSubtopic(id);
+        setSelectedSubtopic("");
+      }
+      await refreshSyllabus();
+      setSuccess(`${type} deleted successfully.`);
+    } catch (err) {
+      setError("Failed to delete item.");
+    } finally {
+      setCrudLoading(false);
     }
   };
 
@@ -139,74 +206,195 @@ export default function CMSPage() {
               Syllabus Selection
             </h2>
             
-            <div className="space-y-4">
+            <div className="space-y-6">
               {/* Paper Select */}
               <div>
                 <label className="block text-sm font-medium text-slate-400 mb-2">Paper</label>
-                <select 
-                  value={selectedPaper}
-                  onChange={(e) => {
-                    setSelectedPaper(e.target.value);
-                    setSelectedSubject("");
-                    setSelectedTopic("");
-                    setSelectedSubtopic("");
-                  }}
-                  className="w-full bg-[#0f172a] border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none"
-                >
-                  <option value="">Select Paper</option>
-                  {papers.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
-                </select>
+                <div className="flex gap-2">
+                  <select 
+                    value={selectedPaper}
+                    onChange={(e) => {
+                      setSelectedPaper(e.target.value);
+                      setSelectedSubject("");
+                      setSelectedTopic("");
+                      setSelectedSubtopic("");
+                    }}
+                    className="flex-1 bg-[#0f172a] border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none"
+                  >
+                    <option value="">Select Paper</option>
+                    {papers.map(p => <option key={p.id} value={p.id}>{p.title}</option>)}
+                  </select>
+                </div>
               </div>
 
               {/* Subject Select */}
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Subject</label>
-                <select 
-                  value={selectedSubject}
-                  disabled={!selectedPaper}
-                  onChange={(e) => {
-                    setSelectedSubject(e.target.value);
-                    setSelectedTopic("");
-                    setSelectedSubtopic("");
-                  }}
-                  className="w-full bg-[#0f172a] border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <option value="">Select Subject</option>
-                  {currentPaper?.subjects.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
-                </select>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-sm font-medium text-slate-400">Subject</label>
+                  {selectedPaper && (
+                    <button 
+                      onClick={() => setAddingType(addingType === "subject" ? null : "subject")}
+                      className="text-xs font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1"
+                    >
+                      {addingType === "subject" ? <X className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+                      {addingType === "subject" ? "Cancel" : "Add Subject"}
+                    </button>
+                  )}
+                </div>
+                {addingType === "subject" ? (
+                  <div className="flex gap-2">
+                    <input 
+                      autoFocus
+                      placeholder="Subject Title..."
+                      value={newItemName}
+                      onChange={(e) => setNewItemName(e.target.value)}
+                      className="flex-1 bg-[#0f172a] border border-blue-500/50 rounded-xl px-4 py-3 focus:outline-none"
+                    />
+                    <button 
+                      onClick={handleAddItem}
+                      disabled={crudLoading || !newItemName}
+                      className="bg-blue-600 px-4 rounded-xl hover:bg-blue-500 disabled:opacity-50"
+                    >
+                      {crudLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save"}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <select 
+                      value={selectedSubject}
+                      disabled={!selectedPaper}
+                      onChange={(e) => {
+                        setSelectedSubject(e.target.value);
+                        setSelectedTopic("");
+                        setSelectedSubtopic("");
+                      }}
+                      className="flex-1 bg-[#0f172a] border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <option value="">Select Subject</option>
+                      {currentPaper?.subjects.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
+                    </select>
+                    {selectedSubject && (
+                      <button 
+                        onClick={() => handleDeleteItem("subject", selectedSubject)}
+                        className="p-3 bg-red-500/10 text-red-500 border border-red-500/20 rounded-xl hover:bg-red-500/20"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Topic Select */}
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Topic</label>
-                <select 
-                  value={selectedTopic}
-                  disabled={!selectedSubject}
-                  onChange={(e) => {
-                    setSelectedTopic(e.target.value);
-                    setSelectedSubtopic("");
-                  }}
-                  className="w-full bg-[#0f172a] border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <option value="">Select Topic</option>
-                  {currentSubject?.topics.map(t => <option key={t.id} value={t.id}>{t.title}</option>)}
-                </select>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-sm font-medium text-slate-400">Topic</label>
+                  {selectedSubject && (
+                    <button 
+                      onClick={() => setAddingType(addingType === "topic" ? null : "topic")}
+                      className="text-xs font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1"
+                    >
+                      {addingType === "topic" ? <X className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+                      {addingType === "topic" ? "Cancel" : "Add Topic"}
+                    </button>
+                  )}
+                </div>
+                {addingType === "topic" ? (
+                  <div className="flex gap-2">
+                    <input 
+                      autoFocus
+                      placeholder="Topic Title..."
+                      value={newItemName}
+                      onChange={(e) => setNewItemName(e.target.value)}
+                      className="flex-1 bg-[#0f172a] border border-blue-500/50 rounded-xl px-4 py-3 focus:outline-none"
+                    />
+                    <button 
+                      onClick={handleAddItem}
+                      disabled={crudLoading || !newItemName}
+                      className="bg-blue-600 px-4 rounded-xl hover:bg-blue-500 disabled:opacity-50"
+                    >
+                      {crudLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save"}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <select 
+                      value={selectedTopic}
+                      disabled={!selectedSubject}
+                      onChange={(e) => {
+                        setSelectedTopic(e.target.value);
+                        setSelectedSubtopic("");
+                      }}
+                      className="flex-1 bg-[#0f172a] border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <option value="">Select Topic</option>
+                      {currentSubject?.topics.map(t => <option key={t.id} value={t.id}>{t.title}</option>)}
+                    </select>
+                    {selectedTopic && (
+                      <button 
+                        onClick={() => handleDeleteItem("topic", selectedTopic)}
+                        className="p-3 bg-red-500/10 text-red-500 border border-red-500/20 rounded-xl hover:bg-red-500/20"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
 
-              {/* Subtopic Select (Optional) */}
-              {currentTopic && currentTopic.subtopics && currentTopic.subtopics.length > 0 && (
-                <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">Subtopic (Optional)</label>
-                  <select 
-                    value={selectedSubtopic}
-                    onChange={(e) => setSelectedSubtopic(e.target.value)}
-                    className="w-full bg-[#0f172a] border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none"
-                  >
-                    <option value="">Select Subtopic</option>
-                    {currentTopic.subtopics.map(st => <option key={st.id} value={st.id}>{st.title}</option>)}
-                  </select>
+              {/* Subtopic Select */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-sm font-medium text-slate-400">Subtopic (Optional)</label>
+                  {selectedTopic && (
+                    <button 
+                      onClick={() => setAddingType(addingType === "subtopic" ? null : "subtopic")}
+                      className="text-xs font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1"
+                    >
+                      {addingType === "subtopic" ? <X className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+                      {addingType === "subtopic" ? "Cancel" : "Add Subtopic"}
+                    </button>
+                  )}
                 </div>
-              )}
+                {addingType === "subtopic" ? (
+                  <div className="flex gap-2">
+                    <input 
+                      autoFocus
+                      placeholder="Subtopic Title..."
+                      value={newItemName}
+                      onChange={(e) => setNewItemName(e.target.value)}
+                      className="flex-1 bg-[#0f172a] border border-blue-500/50 rounded-xl px-4 py-3 focus:outline-none"
+                    />
+                    <button 
+                      onClick={handleAddItem}
+                      disabled={crudLoading || !newItemName}
+                      className="bg-blue-600 px-4 rounded-xl hover:bg-blue-500 disabled:opacity-50"
+                    >
+                      {crudLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save"}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex gap-2">
+                    <select 
+                      value={selectedSubtopic}
+                      disabled={!selectedTopic}
+                      onChange={(e) => setSelectedSubtopic(e.target.value)}
+                      className="flex-1 bg-[#0f172a] border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <option value="">Select Subtopic</option>
+                      {currentTopic?.subtopics.map(st => <option key={st.id} value={st.id}>{st.title}</option>)}
+                    </select>
+                    {selectedSubtopic && (
+                      <button 
+                        onClick={() => handleDeleteItem("subtopic", selectedSubtopic)}
+                        className="p-3 bg-red-500/10 text-red-500 border border-red-500/20 rounded-xl hover:bg-red-500/20"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             {(selectedSubtopic || selectedTopic) && (

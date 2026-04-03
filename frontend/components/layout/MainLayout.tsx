@@ -9,6 +9,7 @@ import {
   Target, 
   CalendarDays, 
   TrendingUp,
+  LayoutDashboard,
   Menu,
   X,
   User,
@@ -24,6 +25,7 @@ const navItems = [
   { label: "Practice", href: "/practice", icon: Target },
   { label: "Daily Plan", href: "/daily-plan", icon: CalendarDays },
   { label: "Progress", href: "/progress", icon: TrendingUp },
+  { label: "CMS", href: "/cms", icon: LayoutDashboard },
 ];
 
 export function MainLayout({ children }: { children: React.ReactNode }) {

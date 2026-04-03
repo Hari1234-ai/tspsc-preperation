@@ -9,30 +9,34 @@ class Paper(Base):
     id = Column(String, primary_key=True, index=True)
     exam_id = Column(String, index=True, default="Group_II") # Group_II, Group_III, Group_IV
     title = Column(String, index=True)
-    subjects = relationship("Subject", back_populates="paper", cascade="all, delete-orphan")
+    order_index = Column(Integer, default=0)
+    subjects = relationship("Subject", back_populates="paper", order_by="Subject.order_index", cascade="all, delete-orphan")
 
 class Subject(Base):
     __tablename__ = "subjects"
     id = Column(String, primary_key=True, index=True)
     title = Column(String, index=True)
+    order_index = Column(Integer, default=0)
     paper_id = Column(String, ForeignKey("papers.id"))
     paper = relationship("Paper", back_populates="subjects")
-    topics = relationship("Topic", back_populates="subject", cascade="all, delete-orphan")
+    topics = relationship("Topic", back_populates="subject", order_by="Topic.order_index", cascade="all, delete-orphan")
 
 class Topic(Base):
     __tablename__ = "topics"
     id = Column(String, primary_key=True, index=True)
     title = Column(String, index=True)
     weightage = Column(String)  # High, Medium, Low
+    order_index = Column(Integer, default=0)
     subject_id = Column(String, ForeignKey("subjects.id"))
     subject = relationship("Subject", back_populates="topics")
-    subtopics = relationship("Subtopic", back_populates="topic", cascade="all, delete-orphan")
+    subtopics = relationship("Subtopic", back_populates="topic", order_by="Subtopic.order_index", cascade="all, delete-orphan")
     concepts = relationship("Concept", back_populates="topic", cascade="all, delete-orphan")
 
 class Subtopic(Base):
     __tablename__ = "subtopics"
     id = Column(String, primary_key=True, index=True)
     title = Column(String)
+    order_index = Column(Integer, default=0)
     topic_id = Column(String, ForeignKey("topics.id"))
     topic = relationship("Topic", back_populates="subtopics")
     concepts = relationship("Concept", back_populates="subtopic", cascade="all, delete-orphan")

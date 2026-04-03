@@ -3,7 +3,11 @@ from sqlalchemy.orm import Session, selectinload
 from typing import List
 from app.db.session import get_db
 from app.db.base import Paper, Subject, Topic, Subtopic, Concept
-from app.schemas.schemas import PaperSchema, SubtopicSchema, SubtopicContentUpdate, ConceptSchema
+from app.schemas.schemas import (
+    PaperSchema, SubtopicSchema, SubtopicContentUpdate, 
+    ConceptSchema, SubjectCreate, TopicCreate, SubtopicCreate, 
+    SubjectSchema, TopicSchema
+)
 from app.services.content_generator import ContentGenerator
 import uuid
 
@@ -25,7 +29,7 @@ def get_syllabus_tree(exam_id: str = "Group_II", db: Session = Depends(get_db)):
     if exam_id:
         query = query.filter(Paper.exam_id == exam_id)
     
-    papers = query.all()
+    papers = query.order_by(Paper.order_index.asc()).all()
     return papers
 
 @router.get("/subtopic/{subtopic_id}", response_model=SubtopicSchema)
@@ -120,3 +124,74 @@ async def update_subtopic_content(
     db.commit()
     db.refresh(concept)
     return concept
+# --- SYLLABUS MANAGEMENT (CRUD) ---
+
+@router.post("/subjects", response_model=SubjectSchema)
+async def create_subject(subject_in: SubjectCreate, db: Session = Depends(get_db)):
+    new_id = f"custom-s-{uuid.uuid4().hex[:6]}"
+    subject = Subject(
+        id=new_id,
+        title=subject_in.title,
+        paper_id=subject_in.paper_id,
+        order_index=subject_in.order_index
+    )
+    db.add(subject)
+    db.commit()
+    db.refresh(subject)
+    return subject
+
+@router.post("/topics", response_model=TopicSchema)
+async def create_topic(topic_in: TopicCreate, db: Session = Depends(get_db)):
+    new_id = f"custom-t-{uuid.uuid4().hex[:6]}"
+    topic = Topic(
+        id=new_id,
+        title=topic_in.title,
+        subject_id=topic_in.subject_id,
+        weightage=topic_in.weightage,
+        order_index=topic_in.order_index
+    )
+    db.add(topic)
+    db.commit()
+    db.refresh(topic)
+    return topic
+
+@router.post("/subtopics", response_model=SubtopicSchema)
+async def create_subtopic(subtopic_in: SubtopicCreate, db: Session = Depends(get_db)):
+    new_id = f"custom-st-{uuid.uuid4().hex[:6]}"
+    subtopic = Subtopic(
+        id=new_id,
+        title=subtopic_in.title,
+        topic_id=subtopic_in.topic_id,
+        order_index=subtopic_in.order_index
+    )
+    db.add(subtopic)
+    db.commit()
+    db.refresh(subtopic)
+    return subtopic
+
+@router.delete("/subjects/{subject_id}")
+async def delete_subject(subject_id: str, db: Session = Depends(get_db)):
+    subject = db.query(Subject).filter(Subject.id == subject_id).first()
+    if not subject:
+        raise HTTPException(status_code=404, detail="Subject not found")
+    db.delete(subject)
+    db.commit()
+    return {"message": "Subject deleted successfully"}
+
+@router.delete("/topics/{topic_id}")
+async def delete_topic(topic_id: str, db: Session = Depends(get_db)):
+    topic = db.query(Topic).filter(Topic.id == topic_id).first()
+    if not topic:
+        raise HTTPException(status_code=404, detail="Topic not found")
+    db.delete(topic)
+    db.commit()
+    return {"message": "Topic deleted successfully"}
+
+@router.delete("/subtopics/{subtopic_id}")
+async def delete_subtopic(subtopic_id: str, db: Session = Depends(get_db)):
+    subtopic = db.query(Subtopic).filter(Subtopic.id == subtopic_id).first()
+    if not subtopic:
+        raise HTTPException(status_code=404, detail="Subtopic not found")
+    db.delete(subtopic)
+    db.commit()
+    return {"message": "Subtopic deleted successfully"}
