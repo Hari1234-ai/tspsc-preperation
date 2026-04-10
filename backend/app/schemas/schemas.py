@@ -42,6 +42,10 @@ class SubtopicSchema(SubtopicBase):
     class Config:
         from_attributes = True
 
+class SubtopicSummary(SubtopicBase):
+    class Config:
+        from_attributes = True
+
 class SubtopicContentUpdate(BaseModel):
     modules: List[ModuleSchema]
 
@@ -64,6 +68,10 @@ class TopicSchema(TopicBase):
     class Config:
         from_attributes = True
 
+class TopicSummary(TopicBase):
+    class Config:
+        from_attributes = True
+
 class SubjectBase(BaseModel):
     id: str
     title: str
@@ -77,6 +85,10 @@ class SubjectCreate(BaseModel):
 
 class SubjectSchema(SubjectBase):
     topics: List[TopicSchema]
+    class Config:
+        from_attributes = True
+
+class SubjectSummary(SubjectBase):
     class Config:
         from_attributes = True
 
@@ -95,6 +107,11 @@ class PaperSchema(BaseModel):
     description: Optional[str] = None
     subjects: List[SubjectSchema]
     
+    class Config:
+        from_attributes = True
+
+class PaperSummary(PaperBase):
+    exam_id: str
     class Config:
         from_attributes = True
 

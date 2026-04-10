@@ -7,7 +7,8 @@ from app.schemas.schemas import (
     PaperSchema, SubtopicSchema, SubtopicContentUpdate, 
     ConceptSchema, SubjectCreate, TopicCreate, SubtopicCreate, 
     SubjectSchema, TopicSchema, PaperCreate, BulkIds,
-    PaperUpdate, SubjectUpdate, TopicUpdate, SubtopicUpdate
+    PaperUpdate, SubjectUpdate, TopicUpdate, SubtopicUpdate,
+    PaperSummary, SubjectSummary, TopicSummary, SubtopicSummary
 )
 # from app.services.content_generator import ContentGenerator
 import uuid
@@ -15,21 +16,21 @@ import uuid
 router = APIRouter()
 
 # --- FLAT GET ENDPOINTS FOR GLOBAL CMS ---
-@router.get("/papers/all", response_model=List[PaperSchema])
+@router.get("/papers/all", response_model=List[PaperSummary])
 def get_all_papers(db: Session = Depends(get_db)):
-    return db.query(Paper).all()
+    return db.query(Paper).order_by(Paper.order_index.asc()).all()
 
-@router.get("/subjects/all", response_model=List[SubjectSchema])
+@router.get("/subjects/all", response_model=List[SubjectSummary])
 def get_all_subjects(db: Session = Depends(get_db)):
-    return db.query(Subject).all()
+    return db.query(Subject).order_by(Subject.order_index.asc()).all()
 
-@router.get("/topics/all", response_model=List[TopicSchema])
+@router.get("/topics/all", response_model=List[TopicSummary])
 def get_all_topics(db: Session = Depends(get_db)):
-    return db.query(Topic).all()
+    return db.query(Topic).order_by(Topic.order_index.asc()).all()
 
-@router.get("/subtopics/all", response_model=List[SubtopicSchema])
+@router.get("/subtopics/all", response_model=List[SubtopicSummary])
 def get_all_subtopics(db: Session = Depends(get_db)):
-    return db.query(Subtopic).all()
+    return db.query(Subtopic).order_by(Subtopic.order_index.asc()).all()
 
 
 @router.get("/tree", response_model=List[PaperSchema])
