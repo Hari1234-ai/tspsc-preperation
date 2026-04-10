@@ -147,6 +147,16 @@ export const updateSubtopicContent = async (subtopicId: string, content: string,
   }
 };
 
+export const getSubjectDetails = async (subjectId: string): Promise<any> => {
+  try {
+    const response = await apiClient.get(`/syllabus/subject/${subjectId}`);
+    return response.data;
+  } catch (error) {
+    console.warn("Failed to fetch subject details from backend.");
+    throw error;
+  }
+};
+
 export const getTopicDetails = async (topicId: string): Promise<any> => {
   try {
     const response = await apiClient.get(`/syllabus/topic/${topicId}`);

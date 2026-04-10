@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useUser } from "@/providers/user-context";
-import { getSubtopicDetails } from "@/lib/api";
+import { getSubtopicDetails, getSubjectDetails } from "@/lib/api";
 import { 
   ArrowLeft, 
   CheckCircle2, 
@@ -16,6 +16,8 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useParams } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { subjectThemes, defaultTheme } from "@/lib/constants";
+import AudioPlayer from "@/components/study/AudioPlayer";
 
 export default function SubtopicContentViewer() {
   const { profile } = useUser();
@@ -26,6 +28,7 @@ export default function SubtopicContentViewer() {
   const subtopicId = params.subtopicId as string;
   
   const [subtopic, setSubtopic] = useState<any>(null);
+  const [subject, setSubject] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [language, setLanguage] = useState<"english" | "telugu">("english");
   const [isFocusMode, setIsFocusMode] = useState(false);
@@ -34,16 +37,20 @@ export default function SubtopicContentViewer() {
     async function fetchData() {
       setLoading(true);
       try {
-        const data = await getSubtopicDetails(subtopicId);
-        setSubtopic(data);
+        const [subtopicData, subjectData] = await Promise.all([
+          getSubtopicDetails(subtopicId),
+          getSubjectDetails(subjectId)
+        ]);
+        setSubtopic(subtopicData);
+        setSubject(subjectData);
       } catch (error) {
-        console.error("Error fetching subtopic content:", error);
+        console.error("Error fetching content:", error);
       } finally {
         setLoading(false);
       }
     }
     fetchData();
-  }, [subtopicId]);
+  }, [subtopicId, subjectId]);
 
   if (loading) {
     return (
@@ -188,6 +195,14 @@ export default function SubtopicContentViewer() {
                                  className="w-full h-full" 
                                />
                              )}
+                          </div>
+                        )}
+                        {mod.type === 'audio' && (
+                          <div className="my-8">
+                             <AudioPlayer 
+                               url={mod.url.startsWith('http') ? mod.url : `http://localhost:8000${mod.url}`} 
+                               themeColor={subject ? (subjectThemes[subject.title.toUpperCase()]?.color || "#4f46e5") : "#4f46e5"}
+                             />
                           </div>
                         )}
                       </div>
