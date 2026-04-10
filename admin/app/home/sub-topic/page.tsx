@@ -196,7 +196,7 @@ export default function GlobalSubtopicsPage() {
       {isDrawerOpen && (
         <>
           <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] animate-in fade-in transition-all duration-500" onClick={() => setIsDrawerOpen(false)}></div>
-          <div className="fixed top-0 right-0 h-full w-[480px] bg-[#0a0c10] border-l border-gray-800 z-[101] p-12 shadow-3xl animate-in slide-in-from-right duration-700 ease-out flex flex-col">
+          <div className="fixed top-0 right-0 h-full w-[480px] bg-[#0a0c10] border-l border-gray-800 z-[101] p-12 shadow-3xl animate-in slide-in-from-right duration-700 ease-out flex flex-col overflow-y-auto">
             <div className="flex items-center justify-between mb-16">
                <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-3 italic">
                  <span className="w-2 h-8 bg-[#6366f1] rounded-full"></span>
