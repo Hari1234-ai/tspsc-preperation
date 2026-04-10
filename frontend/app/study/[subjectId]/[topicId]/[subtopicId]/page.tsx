@@ -185,9 +185,16 @@ export default function SubtopicContentViewer() {
                </motion.div>
              ))
            ) : (
-             <div className="p-20 border-2 border-dashed border-border rounded-[3rem] text-center space-y-4">
-                <BookOpen className="h-16 w-16 text-muted-foreground mx-auto opacity-20" />
-                <p className="text-muted-foreground font-medium italic italic">No detailed academic explainers have been synced for this section yet.</p>
+             <div className="py-32 px-12 border-2 border-dashed border-border rounded-[4rem] text-center space-y-8 bg-secondary/20">
+                <div className="h-24 w-24 rounded-[2rem] bg-primary/10 flex items-center justify-center mx-auto shadow-inner">
+                   <BookOpen className="h-12 w-12 text-primary opacity-40" />
+                </div>
+                <div className="space-y-4 max-w-lg mx-auto">
+                   <h3 className="text-3xl font-black tracking-tight">Academic Content En Route</h3>
+                   <p className="text-xl text-muted-foreground font-medium leading-relaxed italic">
+                      "We are working hard to provide the best academic content for this sub-topic. Stay tuned as our educators secure the highest-fidelity manuscripts for your preparation."
+                   </p>
+                </div>
              </div>
            )}
         </section>

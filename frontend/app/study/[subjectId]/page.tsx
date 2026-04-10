@@ -58,7 +58,7 @@ export default function TopicsGridPage() {
     return (
       <div className="text-center py-20 space-y-4">
         <h2 className="text-2xl font-bold">Subject not found</h2>
-        <Link href="/study" className="text-primary hover:underline">Return to subjects</source>
+        <Link href="/study" className="text-primary hover:underline">Return to subjects</Link>
       </div>
     );
   }
