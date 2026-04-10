@@ -17,7 +17,7 @@ export const subjectThemes: Record<string, { icon: any, color: string, bg: strin
   "TELANGANA ECONOMY": { icon: TrendingUp, color: "#2563eb", bg: "rgba(37, 99, 235, 0.1)", border: "rgba(37, 99, 235, 0.3)" },
   "SOCIETY": { icon: Users, color: "#14b8a6", bg: "rgba(20, 184, 166, 0.1)", border: "rgba(20, 184, 166, 0.3)" },
   "TELANGANA MOVEMENT": { icon: Flag, color: "#f97316", bg: "rgba(249, 115, 22, 0.1)", border: "rgba(249, 115, 22, 0.3)" },
-  "GENERAL STUDIES & GENERAL ABILITIES": { icon: LayoutGrid, color: "#475569", bg: "rgba(71, 85, 105, 0.1)", border: "rgba(71, 85, 105, 0.3)" },
+  "GENERAL STUDIES & GENERAL ABILITIES": { icon: LayoutGrid, color: "#0ea5e9", bg: "rgba(14, 165, 233, 0.1)", border: "rgba(14, 165, 233, 0.3)" },
   "SECRETARIAL ABILITIES": { icon: Zap, color: "#9333ea", bg: "rgba(147, 51, 234, 0.1)", border: "rgba(147, 51, 234, 0.3)" },
   "DEVELOPMENT ISSUES": { icon: TrendingUp, color: "#e11d48", bg: "rgba(225, 29, 72, 0.1)", border: "rgba(225, 29, 72, 0.3)" },
 };
