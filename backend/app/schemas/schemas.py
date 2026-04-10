@@ -6,6 +6,7 @@ class ModuleSchema(BaseModel):
     type: str # 'text', 'image', 'video', 'audio'
     content: Optional[str] = None
     url: Optional[str] = None
+    lang: Optional[str] = None # 'en', 'te'
 
 class ConceptBase(BaseModel):
     id: str
