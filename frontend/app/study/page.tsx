@@ -6,7 +6,9 @@ import { getSyllabusTree, updateProgress, getSubtopicDetails, getTopicDetails } 
 import { Paper, Subtopic, Concept, Topic } from "@/types";
 import { 
   CheckCircle2, BookOpen, Clock, ChevronRight, Play, 
-  Maximize2, Minimize2, Languages
+  Maximize2, Minimize2, Languages, Move, 
+  Tent,
+  GraduationCap
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -31,15 +33,29 @@ function StudyPageInner() {
         const data = await getSyllabusTree(selectedExamId);
         setSyllabus(data);
         // Default to first subtopic if available
-        if (data.length > 0 && data[0].subjects.length > 0 && data[0].subjects[0].topics.length > 0) {
-          const firstTopic = data[0].subjects[0].topics[0];
-          if (firstTopic.subtopics && firstTopic.subtopics.length > 0) {
-            handleSelectItem(firstTopic.subtopics[0], "subtopic");
-          } else {
-            handleSelectItem(firstTopic, "topic");
+        const subjectId = searchParams.get("subject");
+        
+        // Find specific subject if specified, else generic default logic
+        if (subjectId) {
+          let found = false;
+          for (const paper of data) {
+            const subject = paper.subjects.find(s => s.id === subjectId);
+            if (subject && subject.topics.length > 0) {
+              const firstTopic = subject.topics[0];
+              if (firstTopic.subtopics && firstTopic.subtopics.length > 0) {
+                handleSelectItem(firstTopic.subtopics[0], "subtopic");
+              } else {
+                handleSelectItem(firstTopic, "topic");
+              }
+              found = true;
+              break;
+            }
           }
-        } else {
-          setSelectedItem(null);
+          if (!found && data.length > 0) {
+            handleDefaultSelection(data);
+          }
+        } else if (data.length > 0) {
+          handleDefaultSelection(data);
         }
       } catch (error) {
         console.error("Error fetching syllabus:", error);
@@ -47,6 +63,20 @@ function StudyPageInner() {
         setLoading(false);
       }
     }
+
+    const handleDefaultSelection = (data: Paper[]) => {
+      if (data[0].subjects.length > 0 && data[0].subjects[0].topics.length > 0) {
+        const firstTopic = data[0].subjects[0].topics[0];
+        if (firstTopic.subtopics && firstTopic.subtopics.length > 0) {
+          handleSelectItem(firstTopic.subtopics[0], "subtopic");
+        } else {
+          handleSelectItem(firstTopic, "topic");
+        }
+      } else {
+        setSelectedItem(null);
+      }
+    };
+
     fetchSyllabus();
   }, [selectedExamId]);
 
@@ -264,7 +294,7 @@ function ConceptSection({ concept, language, onComplete }: { concept: Concept, l
         </div>
 
         <div className="space-y-6">
-          {concept.modules?.map((mod: any, i: number) => {
+          {concept.modules?.filter((m: any) => !m.lang || m.lang === (language === "english" ? "en" : "te")).map((mod: any, i: number) => {
             switch (mod.type) {
               case "text":
                 return (
