@@ -52,6 +52,18 @@ def get_syllabus_tree(exam_id: str = "Group_II", db: Session = Depends(get_db)):
     papers = query.order_by(Paper.order_index.asc()).all()
     return papers
 
+@router.get("/papers/{paper_id}", response_model=PaperSchema)
+def get_paper(paper_id: str, db: Session = Depends(get_db)):
+    paper = db.query(Paper).options(
+        selectinload(Paper.subjects).selectinload(Subject.topics).selectinload(Topic.subtopics),
+        selectinload(Paper.subjects).selectinload(Subject.topics).selectinload(Topic.concepts)
+    ).filter(Paper.id == paper_id).first()
+    
+    if not paper:
+        raise HTTPException(status_code=404, detail="Paper not found")
+        
+    return paper
+
 @router.get("/subtopic/{subtopic_id}", response_model=SubtopicSchema)
 async def get_subtopic_details(subtopic_id: str, db: Session = Depends(get_db)):
     # Fetch subtopic with full concepts - INSTANT FETCH
@@ -67,7 +79,8 @@ async def get_subtopic_details(subtopic_id: str, db: Session = Depends(get_db)):
 @router.get("/subject/{subject_id}", response_model=SubjectSchema)
 async def get_subject_details(subject_id: str, db: Session = Depends(get_db)):
     subject = db.query(Subject).options(
-        selectinload(Subject.topics)
+        selectinload(Subject.topics).selectinload(Topic.concepts),
+        selectinload(Subject.topics).selectinload(Topic.subtopics)
     ).filter(Subject.id == subject_id).first()
     
     if not subject:
