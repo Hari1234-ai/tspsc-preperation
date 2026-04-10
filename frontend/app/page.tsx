@@ -82,16 +82,16 @@ function ExamCard({ id, title, description, papers, color, icon }: {
   );
 }
 
-const subjectStyles: Record<string, { icon: any, color: string, bg: string }> = {
-  "POLITY": { icon: Gavel, color: "text-indigo-600", bg: "bg-indigo-50 dark:bg-indigo-950/20" },
-  "HISTORY": { icon: Landmark, color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-950/20" },
-  "INDIAN ECONOMY": { icon: Coins, color: "text-emerald-600", bg: "bg-emerald-50 dark:bg-emerald-950/20" },
-  "TELANGANA ECONOMY": { icon: TrendingUp, color: "text-blue-600", bg: "bg-blue-50 dark:bg-blue-950/20" },
-  "SOCIETY": { icon: Users, color: "text-teal-600", bg: "bg-teal-50 dark:bg-teal-950/20" },
-  "TELANGANA MOVEMENT": { icon: Flag, color: "text-orange-600", bg: "bg-orange-50 dark:bg-orange-950/20" },
-  "GENERAL STUDIES & GENERAL ABILITIES": { icon: LayoutGrid, color: "text-slate-600", bg: "bg-slate-100 dark:bg-slate-900/40" },
-  "SECRETARIAL ABILITIES": { icon: Zap, color: "text-purple-600", bg: "bg-purple-50 dark:bg-purple-950/20" },
-  "DEVELOPMENT ISSUES": { icon: TrendingUp, color: "text-rose-600", bg: "bg-rose-50 dark:bg-rose-950/20" },
+const subjectThemes: Record<string, { icon: any, color: string, bg: string, border: string }> = {
+  "POLITY": { icon: Gavel, color: "#6366f1", bg: "rgba(99, 102, 241, 0.1)", border: "rgba(99, 102, 241, 0.3)" },
+  "HISTORY": { icon: Landmark, color: "#d97706", bg: "rgba(217, 119, 6, 0.1)", border: "rgba(217, 119, 6, 0.3)" },
+  "INDIAN ECONOMY": { icon: Coins, color: "#10b981", bg: "rgba(16, 185, 129, 0.1)", border: "rgba(16, 185, 129, 0.3)" },
+  "TELANGANA ECONOMY": { icon: TrendingUp, color: "#2563eb", bg: "rgba(37, 99, 235, 0.1)", border: "rgba(37, 99, 235, 0.3)" },
+  "SOCIETY": { icon: Users, color: "#14b8a6", bg: "rgba(20, 184, 166, 0.1)", border: "rgba(20, 184, 166, 0.3)" },
+  "TELANGANA MOVEMENT": { icon: Flag, color: "#f97316", bg: "rgba(249, 115, 22, 0.1)", border: "rgba(249, 115, 22, 0.3)" },
+  "GENERAL STUDIES & GENERAL ABILITIES": { icon: LayoutGrid, color: "#475569", bg: "rgba(71, 85, 105, 0.1)", border: "rgba(71, 85, 105, 0.3)" },
+  "SECRETARIAL ABILITIES": { icon: Zap, color: "#9333ea", bg: "rgba(147, 51, 234, 0.1)", border: "rgba(147, 51, 234, 0.3)" },
+  "DEVELOPMENT ISSUES": { icon: TrendingUp, color: "#e11d48", bg: "rgba(225, 29, 72, 0.1)", border: "rgba(225, 29, 72, 0.3)" },
 };
 
 export default function Dashboard() {
@@ -193,26 +193,28 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {subjects.slice(0, 3).map((subject, i) => {
-                const style = subjectStyles[subject.title.toUpperCase()] || { icon: BookOpen, color: "text-primary", bg: "bg-primary/5" };
-                const Icon = style.icon;
+                const theme = subjectThemes[subject.title.toUpperCase()] || { icon: BookOpen, color: "#4f46e5", bg: "rgba(79, 70, 229, 0.1)", border: "rgba(79, 70, 229, 0.2)" };
+                const Icon = theme.icon;
                 
                 return (
                   <Link key={subject.id} href={`/study/${subject.id}`}>
                       <motion.div 
-                          whileHover={{ y: -8, scale: 1.02 }}
+                          whileHover={{ y: -8, scale: 1.02, borderColor: theme.color }}
                           whileTap={{ scale: 0.98 }}
                           className={cn(
-                            "bg-card border-2 border-border/50 rounded-[2.5rem] p-8 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden h-full flex flex-col justify-between",
-                            "hover:border-current"
+                            "bg-card border-2 rounded-[2.5rem] p-8 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden h-full flex flex-col justify-between"
                           )}
-                          style={{ color: style.color.includes('indigo') ? undefined : style.color.split('-')[1] }}
+                          style={{ borderColor: "transparent" }}
                       >
                           <div className="space-y-6">
-                              <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center transition-colors", style.bg, style.color)}>
+                              <div 
+                                className="h-14 w-14 rounded-2xl flex items-center justify-center transition-colors"
+                                style={{ backgroundColor: theme.bg, color: theme.color }}
+                              >
                                   <Icon className="h-7 w-7" />
                               </div>
                               <div className="space-y-2">
-                                  <h3 className="text-2xl font-black tracking-tight leading-none uppercase">{subject.title}</h3>
+                                  <h3 className="text-2xl font-black tracking-tight leading-none uppercase" style={{ color: theme.color }}>{subject.title}</h3>
                                   <p className="text-sm text-muted-foreground font-medium leading-tight line-clamp-2">
                                       {subject.description || `Explore topics and academic modules for ${subject.title}.`}
                                   </p>
@@ -220,14 +222,17 @@ export default function Dashboard() {
                           </div>
                           
                           <div className="mt-8 flex items-center justify-between">
-                              <span className={cn("text-[10px] font-black uppercase tracking-widest opacity-60", style.color)}>Study Now</span>
+                              <span className="text-[10px] font-black uppercase tracking-widest opacity-60" style={{ color: theme.color }}>Study Now</span>
                               <div className="p-3 rounded-xl bg-secondary text-muted-foreground transition-all group-hover:bg-primary group-hover:text-white">
                                   <ArrowRight className="h-5 w-5" />
                               </div>
                           </div>
   
                           {/* Decoration */}
-                          <div className={cn("absolute -right-8 -bottom-8 h-32 w-32 rounded-full blur-3xl opacity-10 group-hover:opacity-20 transition-opacity", style.bg)} />
+                          <div 
+                            className="absolute -right-8 -bottom-8 h-32 w-32 rounded-full blur-3xl opacity-10 group-hover:opacity-20 transition-opacity" 
+                            style={{ backgroundColor: theme.bg }}
+                          />
                       </motion.div>
                   </Link>
                 );
