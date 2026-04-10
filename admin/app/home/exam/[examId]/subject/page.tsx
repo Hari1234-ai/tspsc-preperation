@@ -30,9 +30,8 @@ export default function ExamSubjectsPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/syllabus/papers/all`);
-      const data = await res.json();
-      const currentExam = data.find((p: any) => p.id === examId);
+      const res = await fetch(`${API_URL}/syllabus/papers/${examId}`);
+      const currentExam = await res.json();
       setExam(currentExam);
 
       const subRes = await fetch(`${API_URL}/syllabus/subjects/all`);
