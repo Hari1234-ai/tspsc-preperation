@@ -8,7 +8,7 @@ def run():
     db = SessionLocal()
     ingestor = SmartIngestor(db)
     
-    print("--- TSPSC Mastery: Zero-Effort Smart Ingestion ---")
+    print("--- CrackSarkar: Zero-Effort Smart Ingestion ---")
     print(f"Reading from: {os.path.abspath(ingestor.raw_dir)}")
     
     results = ingestor.run_ingestion()

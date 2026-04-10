@@ -3,7 +3,7 @@ import sqlite3
 import uuid
 import os
 
-DB_PATH = "tspsc_mastery.db"
+DB_PATH = "cracksarkar.db"
 
 NEW_SUBJECTS = [
     "GENERAL STUDIES & GENERAL ABILITIES",
@@ -39,10 +39,12 @@ def migrate():
     # 2. Add the 5 NEW Subjects under a default Paper if Paper table is required by API
     # But user said "Remove papers". I'll create one "Master" paper to satisfy foreign keys for now,
     # or I will modify the API to not require papers.
-    # To be safe and keep things working, I'll create a single paper "TSPSC Syllabus"
-    master_paper_id = "tspsc_master"
-    cursor.execute("INSERT OR IGNORE INTO papers (id, exam_id, title) VALUES (?, ?, ?)", 
-                 (master_paper_id, "TSPSC", "TSPSC Syllabus"))
+    # To be safe and keep things working, I'll create a single paper "CrackSarkar Syllabus"
+    master_paper_id = "cracksarkar_master"
+    cursor.execute("""
+        INSERT INTO papers (id, title, description)
+        VALUES (?, ?, ?)
+    """, (master_paper_id, "CrackSarkar", "CrackSarkar Syllabus"))
 
     # 3. Create the 5 Subjects
     subject_ids = {}

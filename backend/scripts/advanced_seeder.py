@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from app.db.base import Base, Paper, Subject, Topic, Subtopic, Concept
 
 # Database setup
-DATABASE_URL = "sqlite:///tspsc_mastery.db"
+DATABASE_URL = "sqlite:///cracksarkar.db"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

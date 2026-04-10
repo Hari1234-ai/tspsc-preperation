@@ -3,7 +3,7 @@ import sqlite3
 import uuid
 
 # Database path
-DB_PATH = "tspsc_mastery.db"
+DB_PATH = "cracksarkar.db"
 
 # Modules to ingest
 modules = [

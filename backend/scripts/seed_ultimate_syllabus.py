@@ -3,7 +3,7 @@ import sqlite3
 import uuid
 import os
 
-DB_PATH = "tspsc_mastery.db"
+DB_PATH = "cracksarkar.db"
 
 def generate_id(text: str, parent_id: str = "") -> str:
     """Generates a deterministic 10-character hex ID."""

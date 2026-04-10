@@ -166,7 +166,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <ExamCard 
             id="Group_II"
-            title="TSPSC Group II"
+            title="CrackSarkar Group II"
             description="Executive & Non-Executive Posts"
             papers={4}
             color="indigo"
@@ -174,7 +174,7 @@ export default function Dashboard() {
           />
           <ExamCard 
             id="Group_III"
-            title="TSPSC Group III"
+            title="CrackSarkar Group III"
             description="Upper & Lower Division Clerks"
             papers={3}
             color="purple"
@@ -182,7 +182,7 @@ export default function Dashboard() {
           />
           <ExamCard 
             id="Group_IV"
-            title="TSPSC Group IV"
+            title="CrackSarkar Group IV"
             description="Secretariat & Revenue Services"
             papers={2}
             color="amber"

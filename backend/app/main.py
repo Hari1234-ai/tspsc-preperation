@@ -8,8 +8,8 @@ from .db.base import Base
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="TSPSC Mastery API",
-    description="Backend for AI-powered TSPSC exam preparation platform",
+    title="CrackSarkar API",
+    description="Backend for AI-powered CrackSarkar exam preparation platform",
     version="1.0.0"
 )
 
@@ -24,6 +24,6 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to TSPSC Mastery API", "status": "online"}
+    return {"message": "Welcome to CrackSarkar API", "status": "online"}
 
 app.include_router(api_router, prefix="/api/v1")

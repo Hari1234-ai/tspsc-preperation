@@ -38,7 +38,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex flex-col w-64 border-r border-border bg-card">
         <div className="h-16 flex items-center px-6 border-b border-border">
-          <h1 className="text-xl font-bold text-primary">TSPSC Mastery</h1>
+          <h1 className="text-xl font-bold text-primary">CrackSarkar</h1>
         </div>
         
         <nav className="flex-1 py-4 px-3 space-y-1 overflow-y-auto">
@@ -80,7 +80,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       {/* Mobile Top Header */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 border-b border-border bg-card flex items-center justify-between px-4 z-20">
-        <h1 className="text-xl font-bold text-primary">TSPSC Mastery</h1>
+        <h1 className="text-xl font-bold text-primary">CrackSarkar</h1>
         <div className="flex items-center gap-2">
           <button 
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}

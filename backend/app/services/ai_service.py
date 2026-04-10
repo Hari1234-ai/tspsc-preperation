@@ -1,7 +1,7 @@
 from typing import Dict, Optional
 
 class AIService:
-    # A knowledge base of bilingual (English + Telugu) simplifications for TSPSC Group II Syllabus
+    # A knowledge base of bilingual (English + Telugu) simplifications for CrackSarkar Group II Syllabus
     KNOWLEDGE_BASE = {
         "c-art12": {
             "english": {
@@ -45,11 +45,11 @@ class AIService:
         # Generic fallback if concept doesn't exist in KB
         return {
             "english": {
-                "simplified": "This concept covers an essential part of the TSPSC syllabus. Focus on historical context and its impact on the modern administration of Telangana.",
+                "simplified": "This concept covers an essential part of the CrackSarkar syllabus. Focus on historical context and its impact on the modern administration of Telangana.",
                 "mnemonic": "No mnemonic available for this topic yet."
             },
             "telugu": {
-                "simplified": "ఈ అంశం టీఎస్‌పీఎస్‌సీ (TSPSC) సిలబస్‌లో ముఖ్యమైన భాగం. దీని యొక్క చారిత్రక నేపథ్యం మరియు తెలంగాణ పరిపాలనపై దీని ప్రభావంపై దృష్టి పెట్టండి.",
+                "simplified": "ఈ అంశం టీఎస్‌పీఎస్‌సీ (CrackSarkar) సిలబస్‌లో ముఖ్యమైన భాగం. దీని యొక్క చారిత్రక నేపథ్యం మరియు తెలంగాణ పరిపాలనపై దీని ప్రభావంపై దృష్టి పెట్టండి.",
                 "mnemonic": "ఈ అంశానికి సంబంధించి ప్రస్తుతం ఎలాంటి చిట్కా అందుబాటులో లేదు."
             }
         }

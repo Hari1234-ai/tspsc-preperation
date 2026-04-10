@@ -7,8 +7,8 @@ import { MainLayout } from "@/components/layout/MainLayout";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TSPSC Mastery",
-  description: "AI-powered exam preparation platform for TSPSC Group II, III, and IV.",
+  title: "CrackSarkar",
+  description: "AI-powered exam preparation platform for CrackSarkar Group II, III, and IV.",
 };
 
 export default function RootLayout({

@@ -1,6 +1,6 @@
-# TSPSC Mastery - AI-Powered Preparation Platform
+# CrackSarkar - AI-Powered Preparation Platform
 
-TSPSC Mastery is a production-ready, full-stack learning platform designed specifically for TSPSC Group II, III, and IV aspirants. It combines structured syllabus navigation with an adaptive daily plan engine and bilingual AI intelligence.
+CrackSarkar is a production-ready, full-stack learning platform designed specifically for CrackSarkar Group II, III, and IV aspirants. It combines structured syllabus navigation with an adaptive daily plan engine and bilingual AI intelligence.
 
 ## 🚀 Key Features
 
@@ -47,7 +47,7 @@ Visit: [http://localhost:3000](http://localhost:3000)
 
 ## 📁 Project Structure
 ```text
-tspsc-mastery/
+cracksarkar/
 ├── frontend/          # Next.js 14 UI
 │   ├── app/           # App Router (Pages)
 │   ├── components/    # Layout & UI Cards
@@ -55,8 +55,8 @@ tspsc-mastery/
 └── backend/           # FastAPI 
     ├── app/           # API Routers & Services
     ├── db/            # SQLAlchemy Models & Seed
-    └── tspsc_mastery.db # Local Persistence
+    └── cracksarkar.db # Local Persistence
 ```
 
 ---
-*Built with ❤️ for TSPSC Aspirants.*
+*Built with ❤️ for CrackSarkar Aspirants.*

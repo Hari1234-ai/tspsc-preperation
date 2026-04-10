@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.services.pdf_manager import PDFManager
 
 class ContentGenerator:
-    """Service to synthesize high-quality, textbook-level TSPSC study material."""
+    """Service to synthesize high-quality, textbook-level CrackSarkar study material."""
     
     def __init__(self, db: Session):
         self.db = db
@@ -16,7 +16,7 @@ class ContentGenerator:
         """Synthesizes professional exam content for a specific syllabus topic."""
         
         # 1. ATTEMPT HIGH-FIDELITY SYNTHESIS
-        # We use my internal academic knowledge base for TSPSC Subjects
+        # We use my internal academic knowledge base for CrackSarkar Subjects
         content_data = self._synthesize_academic_content(topic_title)
         
         if content_data:
@@ -33,7 +33,7 @@ class ContentGenerator:
         return False
 
     def _synthesize_academic_content(self, title: str) -> Optional[Dict]:
-        """Subject-matter expertise synthesis for TSPSC topics."""
+        """Subject-matter expertise synthesis for CrackSarkar topics."""
         
         # CATEGORY 1: TELANGANA HISTORY & MOVEMENT
         if any(kw in title for kw in ["Satavahana", "Asaf Jahi", "Salar Jung", "Kakatiya", "Movement", "1969", "State Formation"]):
@@ -72,8 +72,8 @@ class ContentGenerator:
 
     def _module_polity(self, title: str) -> Dict:
         return {
-            "content": f"### Introduction to {title}\nIn the context of the Indian Constitution and Governance, {title} represents a core pillar of the democratic fabric. For TSPSC, this topic is analyzed from both Constitutional and legal perspectives.\n\n### Constitutional Provisions\n- **Legal Basis**: The specific articles and schedules that govern {title}.\n- **Institutional Framework**: The role of the Executive, Legislature, and Judiciary in shaping this concept.\n- **Ammendments**: Key changes made in recent decades (including 2024 updates) that have impacted its implementation.\n\n### Current Developments\nSupreme Court rulings and recent legislative actions in 2023-2024 have refined the scope of {title}, making it highly relevant for the upcoming Group exam descriptive questions.",
-            "content_telugu": f"### {title} పరిచయం\nభారత రాజ్యాంగం మరియు పాలన పరిధిలో, {title} అనేది ప్రజాస్వామ్య వ్యవస్థలో ఒక కీలక భాగం. TSPSC పరీక్షల కొరకు, దీనిని రాజ్యాంగ మరియు చట్టపరమైన కోణంలో అధ్యయనం చేయడం ముఖ్యం.\n\n### రాజ్యాంగ నిబంధనలు\n- **చట్టపరమైన ఆధారం**: {title} ని నియంత్రించే నిర్దిష్టమైన ఆర్టికల్స్ మరియు షెడ్యూల్స్.\n- **సంస్థాగత నిర్మాణం**: దీనిని రూపొందించడంలో కార్యనిర్వాహక, శాసన మరియు న్యాయ వ్యవస్థల పాత్ర.\n- **సవరణలు**: ఇటీవలి దశాబ్దాలలో (2024 వరకు) జరిగిన కీలక మార్పులు మరియు వాటి ప్రభావం.\n\n### ప్రస్తుత పరిణామాలు\nసుప్రీంకోర్టు తీర్పులు మరియు 2023-2024 లో జరిగిన చట్టపరమైన మార్పులు {title} పరిధిని మరింత స్పష్టం చేశాయి, ఇది రాబోయే గ్రూప్ పరీక్షల్లో చాలా ముఖ్యం.",
+            "content": f"### Introduction to {title}\nIn the context of the Indian Constitution and Governance, {title} represents a core pillar of the democratic fabric. For CrackSarkar, this topic is analyzed from both Constitutional and legal perspectives.\n\n### Constitutional Provisions\n- **Legal Basis**: The specific articles and schedules that govern {title}.\n- **Institutional Framework**: The role of the Executive, Legislature, and Judiciary in shaping this concept.\n- **Ammendments**: Key changes made in recent decades (including 2024 updates) that have impacted its implementation.\n\n### Current Developments\nSupreme Court rulings and recent legislative actions in 2023-2024 have refined the scope of {title}, making it highly relevant for the upcoming Group exam descriptive questions.",
+            "content_telugu": f"### {title} పరిచయం\nభారత రాజ్యాంగం మరియు పాలన పరిధిలో, {title} అనేది ప్రజాస్వామ్య వ్యవస్థలో ఒక కీలక భాగం. CrackSarkar పరీక్షల కొరకు, దీనిని రాజ్యాంగ మరియు చట్టపరమైన కోణంలో అధ్యయనం చేయడం ముఖ్యం.\n\n### రాజ్యాంగ నిబంధనలు\n- **చట్టపరమైన ఆధారం**: {title} ని నియంత్రించే నిర్దిష్టమైన ఆర్టికల్స్ మరియు షెడ్యూల్స్.\n- **సంస్థాగత నిర్మాణం**: దీనిని రూపొందించడంలో కార్యనిర్వాహక, శాసన మరియు న్యాయ వ్యవస్థల పాత్ర.\n- **సవరణలు**: ఇటీవలి దశాబ్దాలలో (2024 వరకు) జరిగిన కీలక మార్పులు మరియు వాటి ప్రభావం.\n\n### ప్రస్తుత పరిణామాలు\nసుప్రీంకోర్టు తీర్పులు మరియు 2023-2024 లో జరిగిన చట్టపరమైన మార్పులు {title} పరిధిని మరింత స్పష్టం చేశాయి, ఇది రాబోయే గ్రూప్ పరీక్షల్లో చాలా ముఖ్యం.",
             "key_points": ["Relevant Constitutional Articles", "Judicial Precedents", "Executive Authority Impact", "Recent Legislative Changes 2024"],
             "key_points_telugu": ["సంబంధిత రాజ్యాంగ అధికరణలు", "న్యాయవ్యవస్థ తీర్పులు", "పాలనా యంత్రాంగంపై ప్రభావం", "2024 తాజా చట్టపరమైన మార్పులు"],
             "examples": ["Landmark Cases (Kesavananda Bharati, etc.)", "73rd/74th Constitutional Amendments"],
@@ -82,8 +82,8 @@ class ContentGenerator:
 
     def _generic_academic_template(self, title: str) -> Dict:
         return {
-            "content": f"### Overview of {title}\n{title} is a critical component of the TSPSC syllabus. A deep understanding of its fundamentals and latest updates is essential for a competitive edge.\n\n### Detailed Elaboration\n- **Context**: The historical and contemporary background of {title}.\n- **Mechanism**: How this concept operates within the framework of governance or economy.\n- **Analysis**: A balanced view of the pros, cons, and future implications.\n\n### Academic Summary\nPreparation should focus on standard academic textbooks and official government reports for the most authentic data on this topic.",
-            "content_telugu": f"### {title} ముఖ్యాంశాలు\n{title} అనేది TSPSC సిలబస్‌లో ఒక ముఖ్యమైన భాగం. దీని ప్రాథమిక అంశాలు మరియు తాజా పరిణామాలపై లోతైన అవగాహన ఉండటం పోటీ పరీక్షల్లో విజయం సాధించడానికి చాలా అవసరం.\n\n### సమగ్ర వివరణ\n- **నేపథ్యం**: {title} యొక్క చారిత్రక మరియు ప్రస్తుత నేపథ్యం.\n- **ప్రక్రియ**: పరిపాలన లేదా ఆర్థిక వ్యవస్థలో ఈ అంశం ఎలా పనిచేస్తుంది.\n- **విశ్లేషణ**: దీని లాభనష్టాలు మరియు భవిష్యత్తు పరిణామాలపై సమతుల్యమైన దృక్పథం.\n\n### శైక్షిక సారాంశం\nఈ అంశంపై ఖచ్చితమైన సమాచారం కోసం ప్రామాణిక పాఠ్యపుస్తకాలు మరియు ప్రభుత్వ నివేదికలను చదవడం మంచిది.",
+            "content": f"### Overview of {title}\n{title} is a critical component of the CrackSarkar syllabus. A deep understanding of its fundamentals and latest updates is essential for a competitive edge.\n\n### Detailed Elaboration\n- **Context**: The historical and contemporary background of {title}.\n- **Mechanism**: How this concept operates within the framework of governance or economy.\n- **Analysis**: A balanced view of the pros, cons, and future implications.\n\n### Academic Summary\nPreparation should focus on standard academic textbooks and official government reports for the most authentic data on this topic.",
+            "content_telugu": f"### {title} ముఖ్యాంశాలు\n{title} అనేది CrackSarkar సిలబస్‌లో ఒక ముఖ్యమైన భాగం. దీని ప్రాథమిక అంశాలు మరియు తాజా పరిణామాలపై లోతైన అవగాహన ఉండటం పోటీ పరీక్షల్లో విజయం సాధించడానికి చాలా అవసరం.\n\n### సమగ్ర వివరణ\n- **నేపథ్యం**: {title} యొక్క చారిత్రక మరియు ప్రస్తుత నేపథ్యం.\n- **ప్రక్రియ**: పరిపాలన లేదా ఆర్థిక వ్యవస్థలో ఈ అంశం ఎలా పనిచేస్తుంది.\n- **విశ్లేషణ**: దీని లాభనష్టాలు మరియు భవిష్యత్తు పరిణామాలపై సమతుల్యమైన దృక్పథం.\n\n### శైక్షిక సారాంశం\nఈ అంశంపై ఖచ్చితమైన సమాచారం కోసం ప్రామాణిక పాఠ్యపుస్తకాలు మరియు ప్రభుత్వ నివేదికలను చదవడం మంచిది.",
             "key_points": ["Fundamental Concept Clarity", "Exam-Oriented Highlights", "Bilingual Understanding"],
             "key_points_telugu": ["ప్రాథమిక భావనలపై స్పష్టత", "పరీక్షా దృక్పథంతో ముఖ్యాంశాలు", "ద్విభాషా అవగాహన"],
             "examples": ["Academic Snapshots", "Official References"],

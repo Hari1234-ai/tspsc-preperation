@@ -2,7 +2,7 @@ import sqlite3
 import json
 import os
 
-DB_PATH = "tspsc_mastery.db"
+DB_PATH = "cracksarkar.db"
 
 SYLLABUS_JSON = {
   "version": "1.0",
