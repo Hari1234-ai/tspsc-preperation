@@ -155,8 +155,29 @@ export default function GlobalContentEditor() {
   );
 
   if (loading) return (
-    <div className="flex items-center justify-center py-32">
-       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#6366f1]"></div>
+    <div className="font-sans max-w-5xl mx-auto text-white pb-32 animate-pulse">
+      <div className="flex items-center justify-between mb-12">
+        <div className="flex items-center gap-8">
+           <div className="w-14 h-14 rounded-2xl bg-gray-800/50 border border-gray-800"></div>
+           <div className="space-y-3">
+              <div className="h-10 w-64 bg-gray-800/50 rounded-2xl"></div>
+              <div className="h-3 w-48 bg-gray-800/30 rounded-lg"></div>
+           </div>
+        </div>
+        <div className="h-16 w-48 bg-gray-800/50 rounded-2xl"></div>
+      </div>
+      <div className="space-y-16">
+        {[1, 2].map(i => (
+          <div key={i} className="bg-[#0d1117] border border-gray-800 rounded-[3rem] p-12 shadow-sm">
+            <div className="flex justify-between items-center mb-10">
+              <div className="h-8 w-48 bg-gray-800/50 rounded-xl"></div>
+              <div className="h-6 w-32 bg-gray-800/30 rounded-full"></div>
+            </div>
+            <div className="h-64 bg-gray-800/20 rounded-3xl mb-8"></div>
+            <div className="h-24 bg-gray-800/10 rounded-3xl"></div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 

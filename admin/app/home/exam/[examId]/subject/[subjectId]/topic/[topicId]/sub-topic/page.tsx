@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { Box, Edit, ChevronDown, ArrowRight, Unlink, Plus, Search, X, Check } from "lucide-react";
 import ConfirmModal from "@/components/ConfirmModal";
+import { SkeletonListRow } from "@/components/Skeleton";
 
 import { API_URL } from "@/lib/constants";
 
@@ -94,8 +95,24 @@ export default function TopicSubtopicsPage() {
   );
 
   if (loading) return (
-    <div className="flex items-center justify-center py-32">
-       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#6366f1]"></div>
+    <div className="font-sans max-w-6xl mx-auto text-white">
+      <div className="text-[10px] font-black text-gray-500 mb-12 flex items-center gap-3 uppercase tracking-[0.2em] animate-pulse">
+        <div className="h-3 w-80 bg-gray-800/50 rounded-lg"></div>
+      </div>
+      <div className="group bg-[#0d1117] rounded-[3rem] p-12 mb-16 border border-gray-800 flex gap-10 items-center animate-pulse">
+        <div className="w-32 h-32 rounded-[2rem] bg-gray-800/50 border border-gray-800 flex-shrink-0"></div>
+        <div className="flex-1 space-y-4">
+          <div className="h-10 w-64 bg-gray-800/50 rounded-2xl"></div>
+          <div className="h-4 w-1/2 bg-gray-800/30 rounded-lg"></div>
+        </div>
+      </div>
+      <div className="flex justify-between items-center mb-10 px-4">
+        <div className="h-8 w-48 bg-gray-800/50 rounded-xl animate-pulse"></div>
+        <div className="h-14 w-40 bg-gray-800/50 rounded-2xl animate-pulse"></div>
+      </div>
+      <div className="space-y-6 pb-20">
+        {[1, 2, 3].map(i => <SkeletonListRow key={i} />)}
+      </div>
     </div>
   );
   

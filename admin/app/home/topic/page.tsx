@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Edit, Plus, X, PenTool, Hash, ArrowRight } from "lucide-react";
+import { Search, Edit, Plus, X, Layers, ArrowRight, PenTool, Hash } from "lucide-react";
 import ConfirmModal from "@/components/ConfirmModal";
+import { SkeletonCard } from "@/components/Skeleton";
 
 import { API_URL } from "@/lib/constants";
 
@@ -116,8 +117,17 @@ export default function GlobalTopicsPage() {
   const filteredTopics = topics.filter(t => t.title.toLowerCase().includes(search.toLowerCase()));
 
   if (loading) return (
-    <div className="flex items-center justify-center py-32">
-       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#6366f1]"></div>
+    <div className="font-sans max-w-6xl mx-auto pb-20 text-white">
+      <div className="flex justify-between items-end mb-14">
+        <div className="space-y-4">
+          <div className="h-10 w-72 bg-gray-800/50 rounded-2xl animate-pulse"></div>
+          <div className="h-4 w-96 bg-gray-800/30 rounded-lg animate-pulse"></div>
+        </div>
+        <div className="h-14 w-40 bg-gray-800/50 rounded-2xl animate-pulse"></div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
+        {[1, 2, 3, 4, 5, 6].map(i => <SkeletonCard key={i} />)}
+      </div>
     </div>
   );
 
