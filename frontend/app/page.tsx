@@ -140,6 +140,17 @@ export default function Dashboard() {
            <p className="text-xl text-muted-foreground mt-4 font-medium max-w-2xl mx-auto">
              Your educational journey continues today. Dive back into your syllabus and master every concept.
            </p>
+           <div className="mt-8 flex justify-center gap-4">
+              <button 
+                onClick={() => {
+                  localStorage.removeItem("cracksarkar_profile");
+                  window.location.reload();
+                }}
+                className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors border border-border px-4 py-2 rounded-full"
+              >
+                Reset Profile & Sync Data
+              </button>
+           </div>
          </motion.div>
       </div>
 

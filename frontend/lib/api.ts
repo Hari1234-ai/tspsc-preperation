@@ -20,11 +20,14 @@ import G3_P1 from "./data/syllabus/group3/paper1.json";
 import G4_P1 from "./data/syllabus/group4/paper1.json";
 
 export const getSyllabusTree = async (examId: string = "Group_II"): Promise<Paper[]> => {
+  console.log(`[API] Fetching syllabus tree for ${examId} from ${API_BASE_URL}`);
   try {
+    const params = { exam_id: examId };
     const response = await apiClient.get("/syllabus/tree", { params });
+    console.log(`[API] Success: Received ${response.data?.length || 0} papers.`);
     return response.data;
   } catch (error) {
-    console.error("API Error: Failed to fetch syllabus tree from backend.", error);
+    console.error(`[API] Error fetching syllabus tree from ${API_BASE_URL}:`, error);
     throw error;
   }
 };
