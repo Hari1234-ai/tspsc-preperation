@@ -232,18 +232,6 @@ export default function SubtopicContentViewer() {
            )}
         </section>
 
-        {/* Next Step Hint */}
-        {!isFocusMode && (
-          <div className="bg-primary/5 border border-primary/20 rounded-[2.5rem] p-12 flex flex-col md:flex-row items-center justify-between gap-8">
-             <div className="space-y-2 text-center md:text-left">
-                <h3 className="text-2xl font-black">Knowledge Solidified?</h3>
-                <p className="text-muted-foreground text-lg">Mark this sub-topic as complete to track your progress toward mastery.</p>
-             </div>
-             <button className="px-8 py-4 bg-primary text-primary-foreground font-black rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
-                Mark as Mastered
-             </button>
-          </div>
-        )}
       </div>
     </div>
   );
