@@ -63,6 +63,17 @@ async def get_subtopic_details(subtopic_id: str, db: Session = Depends(get_db)):
         
     return subtopic
 
+@router.get("/subject/{subject_id}", response_model=SubjectSchema)
+async def get_subject_details(subject_id: str, db: Session = Depends(get_db)):
+    subject = db.query(Subject).options(
+        selectinload(Subject.topics)
+    ).filter(Subject.id == subject_id).first()
+    
+    if not subject:
+        raise HTTPException(status_code=404, detail="Subject not found")
+        
+    return subject
+
 @router.get("/topic/{topic_id}", response_model=TopicSchema)
 async def get_topic_details(topic_id: str, db: Session = Depends(get_db)):
     topic = db.query(Topic).options(

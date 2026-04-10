@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Search, Edit, Plus, X, BookOpen, Compass, Layers, Zap, ArrowRight, Trash2 } from "lucide-react";
 import ConfirmModal from "@/components/ConfirmModal";
 
 import { API_URL } from "@/lib/constants";
 
 export default function GlobalSubjectsPage() {
+  const router = useRouter();
   const [subjects, setSubjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -166,7 +168,11 @@ export default function GlobalSubjectsPage() {
             const colorClass = accentColors[i % accentColors.length];
             
             return (
-              <div key={s.id} className="group bg-[#0d1117] border border-gray-800 p-10 rounded-[3rem] shadow-sm flex flex-col hover:border-[#6366f1]/50 hover:shadow-3xl hover:shadow-indigo-500/10 transition-all duration-500 relative overflow-hidden">
+              <div 
+                key={s.id} 
+                onClick={() => router.push(`/home/subject/${s.id}/topic`)}
+                className="group bg-[#0d1117] border border-gray-800 p-10 rounded-[3rem] shadow-sm flex flex-col cursor-pointer hover:border-[#6366f1]/50 hover:shadow-3xl hover:shadow-indigo-500/10 transition-all duration-500 relative overflow-hidden"
+              >
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#6366f1] opacity-[0.01] blur-3xl -mr-16 -mt-16 group-hover:opacity-[0.04] transition-opacity"></div>
                 
                 <div className="flex justify-between items-start mb-8">

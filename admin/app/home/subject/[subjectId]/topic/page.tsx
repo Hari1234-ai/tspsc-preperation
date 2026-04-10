@@ -3,16 +3,15 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { Layers, Edit, ChevronUp, ChevronDown, ArrowRight, Unlink, Plus, Search, X, Check, Box } from "lucide-react";
+import { Box, Edit, ChevronDown, ArrowRight, Unlink, Plus, Search, X, Check, Layers } from "lucide-react";
 import ConfirmModal from "@/components/ConfirmModal";
 
 import { API_URL } from "@/lib/constants";
 
-export default function SubjectTopicsPage() {
-  const { examId, subjectId } = useParams();
+export default function GlobalSubjectTopicsPage() {
+  const { subjectId } = useParams();
   const router = useRouter();
-  
-  const [exam, setExam] = useState<any>(null);
+
   const [subject, setSubject] = useState<any>(null);
   const [allGlobalTopics, setAllGlobalTopics] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,18 +29,11 @@ export default function SubjectTopicsPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // Fetch Subject details directly (with topics)
+      // Fetch Subject details directly
       const subRes = await fetch(`${API_URL}/syllabus/subject/${subjectId}`);
       const subData = await subRes.json();
       setSubject(subData);
 
-      // Still need exam title for breadcrumbs (optional, but keep for UX)
-      const papersRes = await fetch(`${API_URL}/syllabus/papers/all`);
-      const papersData = await papersRes.json();
-      const currentExam = papersData.find((p: any) => p.id === examId);
-      setExam(currentExam);
-
-      // Fetch all global topics for the drawer
       const topRes = await fetch(`${API_URL}/syllabus/topics/all`);
       const topData = await topRes.json();
       setAllGlobalTopics(topData || []);
@@ -50,8 +42,8 @@ export default function SubjectTopicsPage() {
   };
 
   useEffect(() => {
-    if (examId && subjectId) fetchData();
-  }, [examId, subjectId]);
+    if (subjectId) fetchData();
+  }, [subjectId]);
 
   const handleBulkAssign = async () => {
     if (selectedTopicIds.length === 0) return;
@@ -79,10 +71,10 @@ export default function SubjectTopicsPage() {
     e.stopPropagation();
     setConfirmConfig({
       title: "Unlink Topic",
-      message: "Are you sure you want to unassign this topic from this subject profile?",
+      message: "Are you sure you want to decouple this topic from this global subject? This will not delete the topic itself.",
       onConfirm: async () => {
         setIsConfirmOpen(false);
-        await fetch(`${API_URL}/syllabus/papers/${examId}/subjects/${subjectId}/topics/${topicId}`, { method: "DELETE" });
+        await fetch(`${API_URL}/subjects/${subjectId}/topics/${topicId}`, { method: "DELETE" });
         fetchData();
       }
     });
@@ -107,9 +99,7 @@ export default function SubjectTopicsPage() {
       <div className="text-[10px] font-black text-gray-500 mb-12 flex items-center gap-3 uppercase tracking-[0.2em]">
         <Link href="/home" className="hover:text-white transition-colors">Dashboard</Link>
         <span className="text-gray-800">/</span>
-        <Link href="/home/exam" className="hover:text-white transition-colors">Exams</Link>
-        <span className="text-gray-800">/</span>
-        <Link href={`/home/exam/${examId}/subject`} className="hover:text-white transition-colors uppercase">{exam?.title}</Link>
+        <Link href="/home/subject" className="hover:text-white transition-colors">Subjects</Link>
         <span className="text-gray-800">/</span>
         <span className="text-[#6366f1]">{subject.title}</span>
       </div>
@@ -118,18 +108,18 @@ export default function SubjectTopicsPage() {
       <div className="group bg-[#0d1117] rounded-[3rem] p-12 mb-16 border border-gray-800 flex gap-10 items-center relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#6366f1] opacity-[0.02] blur-3xl -mr-32 -mt-32"></div>
         
-        <div className="w-32 h-32 rounded-[2rem] bg-[#161b22] border border-gray-800 flex items-center justify-center shrink-0 shadow-2xl group-hover:-rotate-6 transition-transform duration-500">
+        <div className="w-32 h-32 rounded-[2rem] bg-[#161b22] border border-gray-800 flex items-center justify-center shrink-0 shadow-2xl group-hover:rotate-6 transition-transform duration-500">
           <Layers strokeWidth={2.5} className="w-16 h-16 text-[#6366f1]" />
         </div>
         <div className="flex-1">
           <h1 className="text-4xl font-black mb-3 tracking-tight italic">{subject.title}</h1>
           <div className="flex items-center gap-4 mb-6">
-            <span className="text-[10px] font-black uppercase py-1 px-4 bg-indigo-500/10 text-[#6366f1] rounded-full tracking-[0.2em] border border-indigo-500/10">Subject Node</span>
+            <span className="text-[10px] font-black uppercase py-1 px-4 bg-indigo-500/10 text-[#6366f1] rounded-full tracking-[0.2em] border border-indigo-500/10">Global Subject Node</span>
             <span className="text-gray-800 text-xs font-black">/</span>
-            <span className="text-sm text-gray-400 font-bold italic">Syllabus Orchestrator</span>
+            <span className="text-sm text-gray-400 font-bold italic">Curriculum Content Architect</span>
           </div>
           <p className="text-md text-gray-400 leading-relaxed max-w-2xl font-bold italic">
-            {subject.description || `"Define the strategic chapters and topics that constitute this subject profile. Ensure logical continuity in the learning journey."`}
+            {subject.description || "Manage the constituent chapters and topics for this global subject."}
           </p>
         </div>
       </div>
@@ -137,7 +127,7 @@ export default function SubjectTopicsPage() {
       <div className="flex justify-between items-center mb-10 px-4">
         <h2 className="text-2xl font-black tracking-tight flex items-center gap-3">
           <span className="w-2 h-8 bg-[#6366f1] rounded-full"></span>
-          Chapters & Topics
+          Linked Topics
         </h2>
         <button 
           onClick={() => setIsDrawerOpen(true)}
@@ -151,43 +141,35 @@ export default function SubjectTopicsPage() {
       <div className="space-y-6 pb-20">
         {subject.topics.length === 0 ? (
            <div className="py-24 text-center bg-[#0d1117] rounded-[3rem] border border-gray-800 border-dashed">
-             <p className="text-[#6366f1] font-black text-xl mb-2">No topics assigned to this subject yet.</p>
-             <p className="text-gray-500 font-bold italic">"Link topics from your global cloud to begin populating this subject."</p>
+             <p className="text-[#6366f1] font-black text-xl mb-2">No topics linked yet.</p>
+             <p className="text-gray-500 font-bold italic">"Link academic chapters to this global subject node."</p>
            </div>
         ) : (
-          subject.topics.map((top: any, i: number) => (
+          subject.topics.map((t: any, i: number) => (
             <div 
-              key={top.id} 
-              onClick={() => router.push(`/home/exam/${examId}/subject/${subjectId}/topic/${top.id}/sub-topic`)}
+              key={t.id} 
+              onClick={() => router.push(`/home/topic/${t.id}/sub-topic`)}
               className="group bg-[#0d1117] border border-gray-800 p-8 rounded-[2.5rem] shadow-sm flex items-center cursor-pointer hover:border-[#6366f1]/50 hover:shadow-3xl hover:shadow-indigo-500/10 transition-all duration-500 relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#6366f1] opacity-[0.01] blur-3xl -mr-16 -mt-16 group-hover:opacity-[0.04] transition-opacity"></div>
               
-              <div className="flex flex-col gap-1 mr-8">
-                <button className="text-gray-800 hover:text-[#6366f1] transition-colors"><ChevronUp size={22} /></button>
-                <div className="w-14 h-14 bg-[#161b22] border border-gray-800 rounded-2xl flex items-center justify-center font-black text-xl text-gray-700 group-hover:bg-[#6366f1] group-hover:text-white transition-all shadow-inner">
-                  {i + 1}
-                </div>
-                <button className="text-gray-800 hover:text-[#6366f1] transition-colors"><ChevronDown size={22} /></button>
+              <div className="w-16 h-16 bg-[#161b22] border border-gray-800 rounded-2xl flex items-center justify-center shrink-0 mr-8 group-hover:bg-[#6366f1] transition-all duration-500 shadow-inner">
+                <span className="font-black text-xl text-gray-700 group-hover:text-white transition-colors duration-500">{i + 1}</span>
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-4 mb-2">
-                  <h3 className="font-black text-2xl text-white group-hover:text-[#6366f1] transition-colors">{top.title}</h3>
-                  <span className={`text-[10px] font-black uppercase px-3 py-1 rounded-lg border tracking-widest ${
-                    top.weightage === 'High' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 'bg-[#6366f1]/10 text-indigo-400 border-indigo-500/20'
-                  }`}>
-                    {top.weightage}
-                  </span>
+                  <h3 className="font-black text-2xl text-white group-hover:text-[#6366f1] transition-colors">{t.title}</h3>
+                  <span className="text-[10px] font-black bg-indigo-500/5 text-[#6366f1] px-3 py-1 rounded-lg border border-indigo-500/10 tracking-widest uppercase">{t.id}</span>
                 </div>
                 <p className="text-sm text-gray-500 font-bold italic opacity-60 group-hover:opacity-100 transition-opacity">
-                  {top.description || "Theoretical modules, case studies, and practical insights."}
+                  {t.description || "Thematic modules and conceptual frameworks."}
                 </p>
               </div>
               <div className="flex items-center gap-6 px-6">
                 <button 
-                  onClick={(e) => handleUnassign(top.id, e)} 
+                  onClick={(e) => handleUnassign(t.id, e)} 
                   className="w-12 h-12 rounded-2xl bg-red-500/5 border border-red-500/10 flex items-center justify-center text-red-500/40 hover:text-red-500 hover:bg-red-500/10 hover:border-red-500/20 transition-all duration-300 transform scale-90 hover:scale-100"
-                  title="Unlink Topic"
+                  title="Unlink Node"
                 >
                   <Unlink size={18} />
                 </button>
@@ -227,14 +209,14 @@ export default function SubjectTopicsPage() {
             </div>
 
             <div className="flex-1 overflow-y-auto pr-2 space-y-3 custom-scrollbar">
-               {filteredGlobalTopics.map(top => {
-                 const isAlreadyAssigned = subject.topics.some((st: any) => st.id === top.id);
-                 const isSelected = selectedTopicIds.includes(top.id);
+               {filteredGlobalTopics.map(t => {
+                 const isAlreadyAssigned = subject.topics.some((st: any) => st.id === t.id);
+                 const isSelected = selectedTopicIds.includes(t.id);
                  
                  return (
                    <div 
-                     key={top.id}
-                     onClick={() => !isAlreadyAssigned && toggleTopicSelection(top.id)}
+                     key={t.id}
+                     onClick={() => !isAlreadyAssigned && toggleTopicSelection(t.id)}
                      className={`p-6 rounded-2xl border transition-all cursor-pointer flex items-center justify-between group ${
                        isAlreadyAssigned 
                         ? "bg-gray-800/20 border-gray-800 opacity-50 cursor-not-allowed" 
@@ -250,8 +232,8 @@ export default function SubjectTopicsPage() {
                            {isSelected ? <Check size={18} strokeWidth={3} /> : <Box size={18} />}
                         </div>
                         <div>
-                          <p className={`font-black tracking-tight ${isSelected ? "text-white" : "text-gray-400"}`}>{top.title}</p>
-                          <p className="text-[10px] font-black text-gray-600 uppercase tracking-widest">{top.id}</p>
+                          <p className={`font-black tracking-tight ${isSelected ? "text-white" : "text-gray-400"}`}>{t.title}</p>
+                          <p className="text-[10px] font-black text-gray-600 uppercase tracking-widest">{t.id}</p>
                         </div>
                      </div>
                      {isAlreadyAssigned && (
@@ -270,9 +252,6 @@ export default function SubjectTopicsPage() {
                >
                  {isSubmitting ? "Linking..." : `Link ${selectedTopicIds.length} Topic${selectedTopicIds.length === 1 ? '' : 's'}`}
                </button>
-               <p className="text-center text-[10px] text-gray-600 font-bold mt-4 uppercase tracking-widest italic leading-relaxed">
-                 "Topics selected here will be integrated into the {subject.title} map."
-               </p>
             </div>
           </div>
         </>
