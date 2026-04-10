@@ -27,7 +27,8 @@ import {
   Mic,
   Save,
   ChevronLeft,
-  Zap
+  Zap,
+  Check
 } from "lucide-react";
 
 import { API_URL } from "@/lib/constants";
@@ -62,24 +63,46 @@ export default function ContentEditor() {
     fetchData();
   }, [subtopicId]);
 
+  const [saveSuccess, setSaveSuccess] = useState(false);
+
   const handleSave = async () => {
     setSaving(true);
-    const updatedModules = [...modules];
-    const textIdx = updatedModules.findIndex(m => m.type === "text");
-    if (textIdx !== -1) {
-      updatedModules[textIdx].content = description;
-    } else {
-      updatedModules.unshift({ type: "text", content: description });
+    setSaveSuccess(false);
+    
+    // Explicitly format the modules to match the schema
+    const updatedModules = modules.map(m => ({
+      type: m.type,
+      content: m.type === 'text' ? description : m.content,
+      url: m.url || null,
+      lang: m.lang || 'en'
+    }));
+
+    // If no text module exists and description has content, add it
+    if (!updatedModules.find(m => m.type === 'text') && description) {
+      updatedModules.unshift({ type: 'text', content: description, url: null, lang: 'en' });
     }
 
     try {
-      await fetch(`${API_URL}/syllabus/subtopic/${subtopicId}/content`, {
+      const res = await fetch(`${API_URL}/syllabus/subtopic/${subtopicId}/content`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ modules: updatedModules })
       });
-      router.push(`/home/exam/${examId}/subject/${subjectId}/topic/${topicId}/sub-topic`);
-    } catch (e) { console.error(e); }
+
+      if (res.ok) {
+        setSaveSuccess(true);
+        // BRIEF DELAY before redirect to let DB finish indexing/caching
+        setTimeout(() => {
+          router.push(`/home/exam/${examId}/subject/${subjectId}/topic/${topicId}/sub-topic`);
+        }, 1200);
+      } else {
+        const errData = await res.json();
+        alert(`Save failed: ${errData.detail || 'Unknown error'}`);
+      }
+    } catch (e) { 
+      console.error("Save Error:", e);
+      alert("Network error: Could not connect to the cloud database.");
+    }
     setSaving(false);
   };
 
@@ -112,14 +135,14 @@ export default function ContentEditor() {
         </div>
         
         <div className="flex gap-4">
-           <button 
-             onClick={handleSave}
-             disabled={saving}
-             className="bg-[#6366f1] text-white px-10 py-5 rounded-2xl font-black text-sm shadow-2xl shadow-indigo-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-3 disabled:opacity-50"
-           >
-             {saving ? "Publishing Node..." : "Sync Changes"}
-             <Save size={18} strokeWidth={3} />
-           </button>
+            <button 
+              onClick={handleSave}
+              disabled={saving || saveSuccess}
+              className={`${saveSuccess ? 'bg-green-500 shadow-green-500/40' : 'bg-[#6366f1] shadow-indigo-500/20'} text-white px-10 py-5 rounded-2xl font-black text-sm shadow-2xl hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-3 disabled:opacity-50`}
+            >
+              {saving ? "Publishing Node..." : saveSuccess ? "Synced Successfully!" : "Sync Changes"}
+              {saveSuccess ? <Check size={18} strokeWidth={3} /> : <Save size={18} strokeWidth={3} />}
+            </button>
         </div>
       </div>
 

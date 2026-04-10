@@ -136,27 +136,36 @@ async def update_subtopic_content(
     content_update: SubtopicContentUpdate, 
     db: Session = Depends(get_db)
 ):
-    # Check if subtopic exists
-    subtopic = db.query(Subtopic).filter(Subtopic.id == subtopic_id).first()
+    # 1. Fetch subtopic with concepts joined to ensure session tracking
+    subtopic = db.query(Subtopic).options(
+        selectinload(Subtopic.concepts)
+    ).filter(Subtopic.id == subtopic_id).first()
+    
     if not subtopic:
         raise HTTPException(status_code=404, detail="Subtopic not found")
     
     if subtopic.concepts:
         # Update existing concept
         concept = subtopic.concepts[0]
-        concept.modules = content_update.modules
+        concept.modules = [m.model_dump() if hasattr(m, "model_dump") else m for m in content_update.modules]
     else:
         # Create a new concept
         concept = Concept(
             id=uuid.uuid4().hex[:10],
             title=subtopic.title,
-            modules=content_update.modules
+            modules=[m.model_dump() if hasattr(m, "model_dump") else m for m in content_update.modules]
         )
-        subtopic.concepts.append(concept)
         db.add(concept)
+        db.flush() # Ensure concept has an identity
+        subtopic.concepts.append(concept)
     
-    db.commit()
-    db.refresh(concept)
+    try:
+        db.commit()
+        db.refresh(concept)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Database synchronization failed: {str(e)}")
+        
     return concept
 # --- SYLLABUS MANAGEMENT (CRUD) ---
 
