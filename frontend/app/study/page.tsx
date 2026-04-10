@@ -14,40 +14,49 @@ import {
   Move, 
   Tent,
   Zap,
-  GraduationCap
+  GraduationCap,
+  TrendingUp,
+  Users,
+  Flag,
+  LayoutGrid
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-const subjectIcons: Record<string, any> = {
-  "General Studies": Landmark,
-  "History": History,
-  "Polity": Gavel,
-  "Economy": Coins,
-  "Geography": Tent,
-  "Telangana Movement": Move,
-  "Secretarial Abilities": Zap,
+const subjectStyles: Record<string, { icon: any, color: string, bg: string }> = {
+  "POLITY": { icon: Gavel, color: "text-indigo-600", bg: "bg-indigo-50 dark:bg-indigo-950/20" },
+  "HISTORY": { icon: Landmark, color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-950/20" },
+  "INDIAN ECONOMY": { icon: Coins, color: "text-emerald-600", bg: "bg-emerald-50 dark:bg-emerald-950/20" },
+  "TELANGANA ECONOMY": { icon: TrendingUp, color: "text-blue-600", bg: "bg-blue-50 dark:bg-blue-950/20" },
+  "SOCIETY": { icon: Users, color: "text-teal-600", bg: "bg-teal-50 dark:bg-teal-950/20" },
+  "TELANGANA MOVEMENT": { icon: Flag, color: "text-orange-600", bg: "bg-orange-50 dark:bg-orange-950/20" },
+  "GENERAL STUDIES & GENERAL ABILITIES": { icon: LayoutGrid, color: "text-slate-600", bg: "bg-slate-100 dark:bg-slate-900/40" },
+  "SECRETARIAL ABILITIES": { icon: Zap, color: "text-purple-600", bg: "bg-purple-50 dark:bg-purple-950/20" },
+  "DEVELOPMENT ISSUES": { icon: TrendingUp, color: "text-rose-600", bg: "bg-rose-50 dark:bg-rose-950/20" },
 };
 
 function SubjectCard({ subject, examId }: { subject: any, examId: string }) {
-  const Icon = subjectIcons[subject.title] || BookOpen;
+  const style = subjectStyles[subject.title.toUpperCase()] || { icon: BookOpen, color: "text-primary", bg: "bg-primary/5" };
+  const Icon = style.icon;
   
   return (
     <Link href={`/study/${subject.id}`}>
       <motion.div 
-        whileHover={{ y: -5, scale: 1.02 }}
+        whileHover={{ y: -8, scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         className={cn(
-          "p-8 rounded-[2rem] border-2 bg-card transition-all cursor-pointer h-full flex flex-col justify-between shadow-sm hover:shadow-xl hover:border-primary/50",
+          "bg-card border-2 border-border/50 rounded-[2.5rem] p-8 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden h-full flex flex-col justify-between",
+          "hover:border-current"
         )}
+        style={{ color: style.color.includes('indigo') ? undefined : style.color.split('-')[1] }}
       >
         <div className="space-y-6">
-          <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-inner">
-            <Icon className="h-8 w-8" />
+          <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center transition-colors", style.bg, style.color)}>
+            <Icon className="h-7 w-7" />
           </div>
           <div className="space-y-2">
-            <h3 className="text-2xl font-black tracking-tight leading-none">{subject.title}</h3>
+            <h3 className="text-2xl font-black tracking-tight leading-none uppercase">{subject.title}</h3>
             <p className="text-sm text-muted-foreground font-medium leading-tight line-clamp-2">
               {subject.description || `Explore modules and detailed academic content for ${subject.title}.`}
             </p>
@@ -55,11 +64,14 @@ function SubjectCard({ subject, examId }: { subject: any, examId: string }) {
         </div>
         
         <div className="mt-8 flex items-center justify-between">
-          <span className="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full">Explore Content</span>
-          <div className="p-3 rounded-xl bg-secondary text-muted-foreground transition-all">
+          <span className={cn("text-[10px] font-black uppercase tracking-widest opacity-60", style.color)}>Explore Content</span>
+          <div className="p-3 rounded-xl bg-secondary text-muted-foreground transition-all group-hover:bg-primary group-hover:text-white">
             <ArrowRight className="h-5 w-5" />
           </div>
         </div>
+
+        {/* Decoration */}
+        <div className={cn("absolute -right-8 -bottom-8 h-32 w-32 rounded-full blur-3xl opacity-10 group-hover:opacity-20 transition-opacity", style.bg)} />
       </motion.div>
     </Link>
   );
