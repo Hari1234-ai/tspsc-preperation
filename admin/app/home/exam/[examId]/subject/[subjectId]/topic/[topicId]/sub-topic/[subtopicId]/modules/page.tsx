@@ -45,9 +45,8 @@ export default function ContentEditor() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`${API_URL}/syllabus/subtopics/all`);
-        const data = await res.json();
-        const st = data.find((x: any) => x.id === subtopicId);
+        const res = await fetch(`${API_URL}/syllabus/subtopic/${subtopicId}`);
+        const st = await res.json();
         
         if (st) {
           setTitle(st.title);
