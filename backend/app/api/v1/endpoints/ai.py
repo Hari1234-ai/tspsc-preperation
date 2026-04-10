@@ -1,5 +1,9 @@
 from fastapi import APIRouter, HTTPException
-from ....services.ai_service import AIService
+
+# AIService stub
+class AIService:
+    @staticmethod
+    def get_concept_explanation(concept_id): return {"explanation": "AI Service currently in maintenance node."}
 
 router = APIRouter()
 

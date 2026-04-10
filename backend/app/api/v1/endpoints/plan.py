@@ -1,8 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from ....db.session import get_db
-from ....schemas.schemas import DailyPlanSchema
-from ....services.plan_service import PlanService
+from app.db.session import get_db
+from app.schemas.schemas import DailyPlanSchema
+from app.services.plan_service import PlanService
+
+# AIService stub
+class AIService:
+    @staticmethod
+    def get_concept_explanation(concept_id): return None
 
 router = APIRouter()
 

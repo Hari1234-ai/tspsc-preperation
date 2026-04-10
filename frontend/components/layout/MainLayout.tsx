@@ -9,7 +9,6 @@ import {
   Target, 
   CalendarDays, 
   TrendingUp,
-  LayoutDashboard,
   Menu,
   X,
   User,
@@ -18,6 +17,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/providers/user-context";
 
 const navItems = [
   { label: "Dashboard", href: "/", icon: Home },
@@ -25,13 +25,13 @@ const navItems = [
   { label: "Practice", href: "/practice", icon: Target },
   { label: "Daily Plan", href: "/daily-plan", icon: CalendarDays },
   { label: "Progress", href: "/progress", icon: TrendingUp },
-  { label: "CMS", href: "/cms", icon: LayoutDashboard },
 ];
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
+  const { profile } = useUser();
 
   return (
     <div className="flex h-screen bg-background overflow-hidden relative">
@@ -63,12 +63,12 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div className="p-4 border-t border-border flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <Link href="/profile" className="flex items-center gap-3 hover:bg-secondary/50 p-2 rounded-xl transition-colors cursor-pointer">
             <div className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center">
               <User className="h-4 w-4 text-secondary-foreground" />
             </div>
-            <div className="text-sm font-medium">Aspirant</div>
-          </div>
+            <div className="text-sm font-medium">{profile?.name || "Aspirant"}</div>
+          </Link>
           <button 
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="p-2 rounded-md hover:bg-secondary text-muted-foreground hover:text-foreground"

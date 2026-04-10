@@ -1,59 +1,92 @@
-from sqlalchemy import Column, Integer, String, Boolean, Float, ForeignKey, DateTime, JSON, Text
+from sqlalchemy import Column, Integer, String, Boolean, Float, ForeignKey, DateTime, JSON, Text, Table
 from sqlalchemy.orm import relationship, declarative_base
 from datetime import datetime
 
 Base = declarative_base()
+
+# Many-to-Many Association Tables
+paper_subject_association = Table(
+    'paper_subject',
+    Base.metadata,
+    Column('paper_id', String, ForeignKey('papers.id', ondelete="CASCADE"), primary_key=True),
+    Column('subject_id', String, ForeignKey('subjects.id', ondelete="CASCADE"), primary_key=True)
+)
+
+subject_topic_association = Table(
+    'subject_topic',
+    Base.metadata,
+    Column('subject_id', String, ForeignKey('subjects.id', ondelete="CASCADE"), primary_key=True),
+    Column('topic_id', String, ForeignKey('topics.id', ondelete="CASCADE"), primary_key=True)
+)
+
+topic_subtopic_association = Table(
+    'topic_subtopic',
+    Base.metadata,
+    Column('topic_id', String, ForeignKey('topics.id', ondelete="CASCADE"), primary_key=True),
+    Column('subtopic_id', String, ForeignKey('subtopics.id', ondelete="CASCADE"), primary_key=True)
+)
+
+subtopic_concept_association = Table(
+    'subtopic_concept',
+    Base.metadata,
+    Column('subtopic_id', String, ForeignKey('subtopics.id', ondelete="CASCADE"), primary_key=True),
+    Column('concept_id', String, ForeignKey('concepts.id', ondelete="CASCADE"), primary_key=True)
+)
 
 class Paper(Base):
     __tablename__ = "papers"
     id = Column(String, primary_key=True, index=True)
     exam_id = Column(String, index=True, default="Group_II") # Group_II, Group_III, Group_IV
     title = Column(String, index=True)
+    description = Column(String, nullable=True)
     order_index = Column(Integer, default=0)
-    subjects = relationship("Subject", back_populates="paper", order_by="Subject.order_index", cascade="all, delete-orphan")
+    
+    subjects = relationship("Subject", secondary=paper_subject_association, back_populates="papers")
 
 class Subject(Base):
     __tablename__ = "subjects"
     id = Column(String, primary_key=True, index=True)
     title = Column(String, index=True)
+    description = Column(String, nullable=True)
     order_index = Column(Integer, default=0)
-    paper_id = Column(String, ForeignKey("papers.id"))
-    paper = relationship("Paper", back_populates="subjects")
-    topics = relationship("Topic", back_populates="subject", order_by="Topic.order_index", cascade="all, delete-orphan")
+    
+    papers = relationship("Paper", secondary=paper_subject_association, back_populates="subjects")
+    topics = relationship("Topic", secondary=subject_topic_association, back_populates="subjects")
 
 class Topic(Base):
     __tablename__ = "topics"
     id = Column(String, primary_key=True, index=True)
     title = Column(String, index=True)
-    weightage = Column(String)  # High, Medium, Low
+    description = Column(String, nullable=True)
+    weightage = Column(String, default="High")  # High, Medium, Low
     order_index = Column(Integer, default=0)
-    subject_id = Column(String, ForeignKey("subjects.id"))
-    subject = relationship("Subject", back_populates="topics")
-    subtopics = relationship("Subtopic", back_populates="topic", order_by="Subtopic.order_index", cascade="all, delete-orphan")
+    
+    subjects = relationship("Subject", secondary=subject_topic_association, back_populates="topics")
+    subtopics = relationship("Subtopic", secondary=topic_subtopic_association, back_populates="topics")
+    # For topics that have direct concepts
     concepts = relationship("Concept", back_populates="topic", cascade="all, delete-orphan")
 
 class Subtopic(Base):
     __tablename__ = "subtopics"
     id = Column(String, primary_key=True, index=True)
     title = Column(String)
+    description = Column(String, nullable=True)
     order_index = Column(Integer, default=0)
-    topic_id = Column(String, ForeignKey("topics.id"))
-    topic = relationship("Topic", back_populates="subtopics")
-    concepts = relationship("Concept", back_populates="subtopic", cascade="all, delete-orphan")
+    
+    topics = relationship("Topic", secondary=topic_subtopic_association, back_populates="subtopics")
+    concepts = relationship("Concept", secondary=subtopic_concept_association, back_populates="subtopics")
 
 class Concept(Base):
     __tablename__ = "concepts"
     id = Column(String, primary_key=True, index=True)
     title = Column(String)
-    content = Column(Text)
-    content_telugu = Column(Text, nullable=True)
-    key_points = Column(JSON)  # List of strings
-    key_points_telugu = Column(JSON, nullable=True)
-    examples = Column(JSON)    # List of strings
-    examples_telugu = Column(JSON, nullable=True)
-    subtopic_id = Column(String, ForeignKey("subtopics.id"), nullable=True)
-    subtopic = relationship("Subtopic", back_populates="concepts")
-    topic_id = Column(String, ForeignKey("topics.id"), nullable=True)
+    modules = Column(JSON, default=list) 
+    # Example format: [{"type": "text", "content": "..."}, {"type": "video", "url": "..."}]
+    
+    subtopics = relationship("Subtopic", secondary=subtopic_concept_association, back_populates="concepts")
+    
+    # Legacy topic compatibility for Concept directly on a Topic without subtopics
+    topic_id = Column(String, ForeignKey("topics.id", ondelete="SET NULL"), nullable=True)
     topic = relationship("Topic", back_populates="concepts")
 
 class UserProgress(Base):

@@ -240,10 +240,6 @@ function StudyPageInner() {
 
 function ConceptSection({ concept, language, onComplete }: { concept: Concept, language: "english" | "telugu", onComplete: () => void }) {
 
-  const currentContent = language === "telugu" ? (concept.content_telugu || concept.content) : concept.content;
-  const currentKeyPoints = language === "telugu" ? (concept.key_points_telugu || concept.key_points) : concept.key_points;
-  const currentExamples = language === "telugu" ? (concept.examples_telugu || concept.examples) : concept.examples;
-
   return (
     <div className="relative pl-8 border-l-2 border-border mb-12 last:mb-0">
       <div 
@@ -267,43 +263,42 @@ function ConceptSection({ concept, language, onComplete }: { concept: Concept, l
           </h2>
         </div>
 
-        <div className="prose prose-slate dark:prose-invert max-w-none pt-2">
-          <p className={cn(
-            "text-lg leading-relaxed text-muted-foreground whitespace-pre-wrap",
-            language === "telugu" && "font-telugu leading-loose"
-          )}>
-            {currentContent}
-          </p>
+        <div className="space-y-6">
+          {concept.modules?.map((mod: any, i: number) => {
+            switch (mod.type) {
+              case "text":
+                return (
+                  <div key={i} className={cn(
+                    "prose prose-slate dark:prose-invert max-w-none text-lg leading-relaxed text-muted-foreground whitespace-pre-wrap",
+                    language === "telugu" && "font-telugu leading-loose"
+                  )}>
+                    {mod.content}
+                  </div>
+                );
+              case "image":
+                return (
+                  <div key={i} className="my-4 rounded-xl overflow-hidden shadow-sm border border-border">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={mod.url} alt="Concept graphic" className="w-full h-auto object-cover" />
+                  </div>
+                );
+              case "video":
+                return (
+                  <div key={i} className="my-4 rounded-xl overflow-hidden shadow-sm border border-border bg-black aspect-video">
+                    <video src={mod.url} controls className="w-full h-full" preload="metadata" />
+                  </div>
+                );
+              case "audio":
+                return (
+                  <div key={i} className="my-4 bg-secondary/30 p-4 rounded-xl border border-border">
+                    <audio src={mod.url} controls className="w-full" preload="metadata" />
+                  </div>
+                );
+              default:
+                return null;
+            }
+          })}
         </div>
-        
-        {currentKeyPoints && currentKeyPoints.length > 0 && (
-          <div className="space-y-4">
-            <h4 className="text-xs font-black uppercase tracking-widest text-muted-foreground border-b border-border pb-2 w-fit">Key Aspects</h4>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {currentKeyPoints.map((point: string, i: number) => (
-                <li key={i} className="flex items-start gap-4 p-4 bg-secondary/30 rounded-2xl text-sm font-semibold border border-border group hover:bg-primary/5 hover:border-primary/20 transition-all">
-                  <div className="h-2 w-2 rounded-full bg-primary mt-1.5 shrink-0 group-hover:scale-125 transition-transform" />
-                  <span className={cn(language === "telugu" && "font-telugu")}>{point}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {currentExamples && currentExamples.length > 0 && (
-          <div className="space-y-4">
-            <h4 className="text-xs font-black uppercase tracking-widest text-muted-foreground border-b border-border pb-2 w-fit">Quick Examples</h4>
-            <div className="grid grid-cols-1 gap-4">
-              {currentExamples.map((ex: string, i: number) => (
-                <div key={i} className="p-6 border border-dashed border-primary/20 bg-primary/5 rounded-2xl text-base italic font-serif relative">
-                  <span className="absolute top-2 left-3 text-4xl text-primary/20 font-serif leading-none">“</span>
-                  <span className={cn(language === "telugu" && "font-telugu")}>{ex}</span>
-                  <span className="absolute bottom-2 right-3 text-4xl text-primary/20 font-serif leading-none">”</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ import { DailyPlan, UserProgressOverview, Paper } from "@/types";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/providers/user-context";
 
 function ExamCard({ id, title, description, papers, color, icon }: { 
   id: string, title: string, description: string, papers: number, color: string, icon: React.ReactNode 
@@ -70,7 +71,8 @@ function ExamCard({ id, title, description, papers, color, icon }: {
 }
 
 export default function Dashboard() {
-  const [selectedExamId, setSelectedExamId] = useState("Group_II");
+  const { profile } = useUser();
+  const selectedExamId = profile?.exam || "Group_II";
   const [todayPlan, setTodayPlan] = useState<DailyPlan | null>(null);
   const [progress, setProgress] = useState<UserProgressOverview | null>(null);
   const [syllabus, setSyllabus] = useState<Paper[]>([]);
@@ -121,7 +123,7 @@ export default function Dashboard() {
       {/* Welcome Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground/90">Good morning, Aspirant!</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground/90">Good morning, {profile?.name || "Aspirant"}!</h1>
           <p className="text-muted-foreground mt-1 font-medium">
             You're on a <span className="text-primary font-bold">{progress?.streakDays || 0} day streak</span>. Keep it up!
           </p>
@@ -142,52 +144,13 @@ export default function Dashboard() {
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-black tracking-tight flex items-center gap-2">
             <Zap className="h-5 w-5 text-primary fill-primary" />
-            Mastery Paths
+            Your Target Path
           </h2>
           <div className="flex p-1 bg-secondary/50 rounded-xl border border-border/50">
-            {[
-              {id: "Group_II", label: "GII"},
-              {id: "Group_III", label: "GIII"},
-              {id: "Group_IV", label: "GIV"},
-            ].map((e: { id: string, label: string }) => (
-              <button 
-                key={e.id}
-                onClick={() => setSelectedExamId(e.id)}
-                className={cn(
-                  "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all",
-                  selectedExamId === e.id ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {e.label}
-              </button>
-            ))}
+             <span className="px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10">
+               {selectedExamId.replace("_", " ")}
+             </span>
           </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <ExamCard 
-            id="Group_II"
-            title="CrackSarkar Group II"
-            description="Executive & Non-Executive Posts"
-            papers={4}
-            color="indigo"
-            icon={<Trophy className="h-6 w-6" />}
-          />
-          <ExamCard 
-            id="Group_III"
-            title="CrackSarkar Group III"
-            description="Upper & Lower Division Clerks"
-            papers={3}
-            color="purple"
-            icon={<Zap className="h-6 w-6" />}
-          />
-          <ExamCard 
-            id="Group_IV"
-            title="CrackSarkar Group IV"
-            description="Secretariat & Revenue Services"
-            papers={2}
-            color="amber"
-            icon={<ArrowRight className="h-6 w-6" />}
-          />
         </div>
       </section>
 

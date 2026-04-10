@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from ....db.session import get_db
-from ....db.base import UserProgress
-from ....schemas.schemas import UserProgressSchema
+from app.db.session import get_db
+from app.db.base import UserProgress
+from app.schemas.schemas import UserProgressSchema
 from datetime import datetime
 
 router = APIRouter()
@@ -45,5 +45,5 @@ def update_progress(
 
 @router.get("/overview")
 def get_progress_summary(exam_id: str = None, user_id: str = "default_user", db: Session = Depends(get_db)):
-    from ....services.plan_service import PlanService
+    from app.services.plan_service import PlanService
     return PlanService.get_progress_overview(db, user_id, exam_id)

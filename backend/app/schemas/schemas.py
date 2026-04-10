@@ -2,12 +2,15 @@ from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
 
+class ModuleSchema(BaseModel):
+    type: str # 'text', 'image', 'video', 'audio'
+    content: Optional[str] = None
+    url: Optional[str] = None
+
 class ConceptBase(BaseModel):
     id: str
     title: str
-    content: str
-    key_points: List[str]
-    examples: List[str]
+    modules: List[ModuleSchema] = []
     completed: bool = False
 
 class ConceptCreate(ConceptBase):
@@ -19,21 +22,18 @@ class ConceptSchema(ConceptBase):
 
 class ConceptUpdate(BaseModel):
     title: Optional[str] = None
-    content: Optional[str] = None
-    content_telugu: Optional[str] = None
-    key_points: Optional[List[str]] = None
-    key_points_telugu: Optional[List[str]] = None
-    examples: Optional[List[str]] = None
-    examples_telugu: Optional[List[str]] = None
+    modules: Optional[List[ModuleSchema]] = None
 
 class SubtopicBase(BaseModel):
     id: str
     title: str
+    description: Optional[str] = None
     progress: float = 0.0
 
 class SubtopicCreate(BaseModel):
     title: str
-    topic_id: str
+    description: Optional[str] = None
+    topic_ids: Optional[List[str]] = []
     order_index: Optional[int] = 0
 
 class SubtopicSchema(SubtopicBase):
@@ -42,17 +42,18 @@ class SubtopicSchema(SubtopicBase):
         from_attributes = True
 
 class SubtopicContentUpdate(BaseModel):
-    content: str
-    content_telugu: Optional[str] = None
+    modules: List[ModuleSchema]
 
 class TopicBase(BaseModel):
     id: str
     title: str
+    description: Optional[str] = None
     weightage: str # High, Medium, Low
 
 class TopicCreate(BaseModel):
     title: str
-    subject_id: str
+    description: Optional[str] = None
+    subject_ids: Optional[List[str]] = []
     weightage: Optional[str] = "High"
     order_index: Optional[int] = 0
 
@@ -65,10 +66,12 @@ class TopicSchema(TopicBase):
 class SubjectBase(BaseModel):
     id: str
     title: str
+    description: Optional[str] = None
 
 class SubjectCreate(BaseModel):
     title: str
-    paper_id: str
+    description: Optional[str] = None
+    paper_ids: Optional[List[str]] = []
     order_index: Optional[int] = 0
 
 class SubjectSchema(SubjectBase):
@@ -79,6 +82,7 @@ class SubjectSchema(SubjectBase):
 class PaperBase(BaseModel):
     id: str
     title: str
+    description: Optional[str] = None
 
 class PaperCreate(PaperBase):
     pass
@@ -133,3 +137,23 @@ class UserProgressBase(BaseModel):
 class UserProgressSchema(UserProgressBase):
     class Config:
         from_attributes = True
+
+class BulkIds(BaseModel):
+    ids: List[str]
+
+class PaperUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+
+class SubjectUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+
+class TopicUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+    weightage: Optional[str] = None
+
+class SubtopicUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
