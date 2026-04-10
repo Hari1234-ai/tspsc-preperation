@@ -91,6 +91,7 @@ class PaperSchema(BaseModel):
     id: str
     exam_id: str
     title: str
+    description: Optional[str] = None
     subjects: List[SubjectSchema]
     
     class Config:

@@ -30,9 +30,10 @@ export default function GlobalExamsPage() {
     try {
       const res = await fetch(`${API_URL}/syllabus/papers/all`);
       const data = await res.json();
+      console.log("Exams fetched from API:", data);
       setExams(data || []);
     } catch (e) {
-      console.error(e);
+      console.error("Failed to fetch exams:", e);
     }
     setLoading(false);
   };
