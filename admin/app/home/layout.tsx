@@ -35,9 +35,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
           <div className="p-8 pb-4">
             {/* Branding */}
             <div className="mb-6 flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#6366f1] rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                <span className="text-white font-black text-xl italic">C</span>
-              </div>
+              <img src="/favicon.svg" alt="Logo" className="h-10 w-10 flex-shrink-0" />
               <span className="text-white text-2xl font-black tracking-tighter italic">CrackSarkar <span className="text-[#6366f1]">Admin</span></span>
             </div>
             

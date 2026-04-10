@@ -75,13 +75,13 @@ export default function StudyLandingPage() {
     async function fetchData() {
       setLoading(true);
       try {
-        const syllabus = await getSyllabusTree(selectedExamId);
+        const syllabusData = await getSyllabusTree(selectedExamId);
         // Extract unique subjects across all papers
         const allSubjects: any[] = [];
         const seenIds = new Set();
         
-        syllabus.forEach(paper => {
-          paper.subjects?.forEach(sub => {
+        syllabusData.forEach((paper: any) => {
+          paper.subjects?.forEach((sub: any) => {
             if (!seenIds.has(sub.id)) {
               allSubjects.push(sub);
               seenIds.add(sub.id);

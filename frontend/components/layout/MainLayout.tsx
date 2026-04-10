@@ -34,7 +34,8 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     <div className="flex h-screen bg-background overflow-hidden relative">
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex flex-col w-64 border-r border-border bg-card">
-        <div className="h-16 flex items-center px-6 border-b border-border">
+        <div className="h-16 flex items-center px-6 border-b border-border gap-3">
+          <img src="/favicon.svg" alt="Logo" className="h-8 w-8" />
           <h1 className="text-xl font-bold text-primary">CrackSarkar</h1>
         </div>
         

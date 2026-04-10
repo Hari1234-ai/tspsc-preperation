@@ -5,9 +5,14 @@ import {
   ArrowRight, 
   Trophy, 
   Zap, 
-  AlertCircle,
   LayoutGrid,
-  BookOpen
+  BookOpen,
+  Gavel,
+  Landmark,
+  Coins,
+  TrendingUp,
+  Users,
+  Flag
 } from "lucide-react";
 import { DailyPlanCard } from "@/components/cards/DailyPlanCard";
 import { ProgressChart } from "@/components/charts/ProgressChart";
@@ -77,6 +82,18 @@ function ExamCard({ id, title, description, papers, color, icon }: {
   );
 }
 
+const subjectStyles: Record<string, { icon: any, color: string, bg: string }> = {
+  "POLITY": { icon: Gavel, color: "text-indigo-600", bg: "bg-indigo-50 dark:bg-indigo-950/20" },
+  "HISTORY": { icon: Landmark, color: "text-amber-600", bg: "bg-amber-50 dark:bg-amber-950/20" },
+  "INDIAN ECONOMY": { icon: Coins, color: "text-emerald-600", bg: "bg-emerald-50 dark:bg-emerald-950/20" },
+  "TELANGANA ECONOMY": { icon: TrendingUp, color: "text-blue-600", bg: "bg-blue-50 dark:bg-blue-950/20" },
+  "SOCIETY": { icon: Users, color: "text-teal-600", bg: "bg-teal-50 dark:bg-teal-950/20" },
+  "TELANGANA MOVEMENT": { icon: Flag, color: "text-orange-600", bg: "bg-orange-50 dark:bg-orange-950/20" },
+  "GENERAL STUDIES & GENERAL ABILITIES": { icon: LayoutGrid, color: "text-slate-600", bg: "bg-slate-100 dark:bg-slate-900/40" },
+  "SECRETARIAL ABILITIES": { icon: Zap, color: "text-purple-600", bg: "bg-purple-50 dark:bg-purple-950/20" },
+  "DEVELOPMENT ISSUES": { icon: TrendingUp, color: "text-rose-600", bg: "bg-rose-50 dark:bg-rose-950/20" },
+};
+
 export default function Dashboard() {
   const { profile } = useUser();
   const selectedExamId = profile?.exam || "Group_II";
@@ -100,7 +117,8 @@ export default function Dashboard() {
             }
           });
         });
-        setSubjects(allSubjects);
+        
+        setSubjects(allSubjects.slice(0, 6));
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
@@ -140,17 +158,6 @@ export default function Dashboard() {
            <p className="text-xl text-muted-foreground mt-4 font-medium max-w-2xl mx-auto">
              Your educational journey continues today. Dive back into your syllabus and master every concept.
            </p>
-           <div className="mt-8 flex justify-center gap-4">
-              <button 
-                onClick={() => {
-                  localStorage.removeItem("cracksarkar_profile");
-                  window.location.reload();
-                }}
-                className="text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors border border-border px-4 py-2 rounded-full"
-              >
-                Reset Profile & Sync Data
-              </button>
-           </div>
          </motion.div>
       </div>
 
@@ -167,43 +174,64 @@ export default function Dashboard() {
                 <LayoutGrid className="h-6 w-6" />
                 <span className="text-xs font-black uppercase tracking-[0.2em]">Curriculum Dashboard</span>
             </div>
-            <div className="bg-primary/10 text-primary px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
-                {selectedExamId.replace("_", " ")}
+            <div className="flex items-center gap-4">
+              <Link href="/study">
+                <motion.button 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary/70 hover:text-primary transition-all"
+                >
+                  View All Subjects
+                  <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                </motion.button>
+              </Link>
+              <div className="bg-primary/10 text-primary px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
+                  {selectedExamId.replace("_", " ")}
+              </div>
             </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {subjects.map((subject, i) => (
-                <Link key={subject.id} href={`/study/${subject.id}`}>
-                    <motion.div 
-                        whileHover={{ y: -8, scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="bg-card border-2 border-border/50 rounded-[2.5rem] p-8 shadow-sm hover:shadow-xl transition-all hover:border-primary/40 group relative overflow-hidden h-full flex flex-col justify-between"
-                    >
-                        <div className="space-y-6">
-                            <div className="h-14 w-14 rounded-2xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors">
-                                <BookOpen className="h-7 w-7" />
-                            </div>
-                            <div className="space-y-2">
-                                <h3 className="text-2xl font-black tracking-tight leading-none">{subject.title}</h3>
-                                <p className="text-sm text-muted-foreground font-medium leading-tight line-clamp-2">
-                                    {subject.description || `Explore topics and academic modules for ${subject.title}.`}
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <div className="mt-8 flex items-center justify-between">
-                            <span className="text-[10px] font-black uppercase tracking-widest text-primary/60">Study Now</span>
-                            <div className="p-3 rounded-xl bg-secondary text-muted-foreground transition-all">
-                                <ArrowRight className="h-5 w-5" />
-                            </div>
-                        </div>
-
-                        {/* Decoration */}
-                        <div className="absolute -right-8 -bottom-8 h-32 w-32 rounded-full bg-primary/5 blur-3xl group-hover:bg-primary/10 transition-colors" />
-                    </motion.div>
-                </Link>
-            ))}
+            {subjects.slice(0, 3).map((subject, i) => {
+                const style = subjectStyles[subject.title.toUpperCase()] || { icon: BookOpen, color: "text-primary", bg: "bg-primary/5" };
+                const Icon = style.icon;
+                
+                return (
+                  <Link key={subject.id} href={`/study/${subject.id}`}>
+                      <motion.div 
+                          whileHover={{ y: -8, scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className={cn(
+                            "bg-card border-2 border-border/50 rounded-[2.5rem] p-8 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden h-full flex flex-col justify-between",
+                            "hover:border-current"
+                          )}
+                          style={{ color: style.color.includes('indigo') ? undefined : style.color.split('-')[1] }}
+                      >
+                          <div className="space-y-6">
+                              <div className={cn("h-14 w-14 rounded-2xl flex items-center justify-center transition-colors", style.bg, style.color)}>
+                                  <Icon className="h-7 w-7" />
+                              </div>
+                              <div className="space-y-2">
+                                  <h3 className="text-2xl font-black tracking-tight leading-none uppercase">{subject.title}</h3>
+                                  <p className="text-sm text-muted-foreground font-medium leading-tight line-clamp-2">
+                                      {subject.description || `Explore topics and academic modules for ${subject.title}.`}
+                                  </p>
+                              </div>
+                          </div>
+                          
+                          <div className="mt-8 flex items-center justify-between">
+                              <span className={cn("text-[10px] font-black uppercase tracking-widest opacity-60", style.color)}>Study Now</span>
+                              <div className="p-3 rounded-xl bg-secondary text-muted-foreground transition-all group-hover:bg-primary group-hover:text-white">
+                                  <ArrowRight className="h-5 w-5" />
+                              </div>
+                          </div>
+  
+                          {/* Decoration */}
+                          <div className={cn("absolute -right-8 -bottom-8 h-32 w-32 rounded-full blur-3xl opacity-10 group-hover:opacity-20 transition-opacity", style.bg)} />
+                      </motion.div>
+                  </Link>
+                );
+            })}
         </div>
       </motion.section>
       )}
