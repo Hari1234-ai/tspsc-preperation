@@ -21,31 +21,11 @@ import G4_P1 from "./data/syllabus/group4/paper1.json";
 
 export const getSyllabusTree = async (examId: string = "Group_II"): Promise<Paper[]> => {
   try {
-    const params = { exam_id: examId };
     const response = await apiClient.get("/syllabus/tree", { params });
-    if (response.data && response.data.length > 0) return response.data;
-    
-    // Fallback to local modular mock data
-    if (examId === "Group_II") {
-      // Cast to Paper[] to satisfy types
-      return [...(G2_P1 as any), ...(G2_P2 as any), ...MOCK_SYLLABUS.filter(p => p.exam_id === "Group_II" && p.id !== "p1" && p.id !== "p2")];
-    } else if (examId === "Group_III") {
-      return [...(G3_P1 as any), ...MOCK_SYLLABUS.filter(p => p.exam_id === "Group_III" && p.id !== "p1-g3")];
-    } else if (examId === "Group_IV") {
-      return [...(G4_P1 as any), ...MOCK_SYLLABUS.filter(p => p.exam_id === "Group_IV" && p.id !== "p1-g4" && p.id !== "p2-g4")];
-    }
-    
-    return MOCK_SYLLABUS.filter(p => p.exam_id === examId);
+    return response.data;
   } catch (error) {
-    console.warn("Using mock syllabus data (backend unreachable)");
-    if (examId === "Group_II") {
-      return [...(G2_P1 as any), ...(G2_P2 as any), ...MOCK_SYLLABUS.filter(p => p.exam_id === "Group_II" && p.id !== "p1" && p.id !== "p2")];
-    } else if (examId === "Group_III") {
-      return [...(G3_P1 as any), ...MOCK_SYLLABUS.filter(p => p.exam_id === "Group_III" && p.id !== "p1-g3")];
-    } else if (examId === "Group_IV") {
-      return [...(G4_P1 as any), ...MOCK_SYLLABUS.filter(p => p.exam_id === "Group_IV" && p.id !== "p1-g4" && p.id !== "p2-g4")];
-    }
-    return MOCK_SYLLABUS.filter(p => p.exam_id === examId);
+    console.error("API Error: Failed to fetch syllabus tree from backend.", error);
+    throw error;
   }
 };
 

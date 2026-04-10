@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ArrowRight, Trophy, Zap, AlertCircle } from "lucide-react";
+import { 
+  ArrowRight, 
+  Trophy, 
+  Zap, 
+  AlertCircle,
+  LayoutGrid,
+  BookOpen
+} from "lucide-react";
 import { DailyPlanCard } from "@/components/cards/DailyPlanCard";
 import { ProgressChart } from "@/components/charts/ProgressChart";
 import { StudyCard } from "@/components/cards/StudyCard";
@@ -73,23 +80,27 @@ function ExamCard({ id, title, description, papers, color, icon }: {
 export default function Dashboard() {
   const { profile } = useUser();
   const selectedExamId = profile?.exam || "Group_II";
-  const [todayPlan, setTodayPlan] = useState<DailyPlan | null>(null);
-  const [progress, setProgress] = useState<UserProgressOverview | null>(null);
-  const [syllabus, setSyllabus] = useState<Paper[]>([]);
+  const [subjects, setSubjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
       try {
-        const [planData, progressData, syllabusData] = await Promise.all([
-          getTodayPlan(selectedExamId),
-          getProgressOverview(selectedExamId),
-          getSyllabusTree(selectedExamId)
-        ]);
-        setTodayPlan(planData);
-        setProgress(progressData);
-        setSyllabus(syllabusData);
+        const syllabusData = await getSyllabusTree(selectedExamId);
+        // Extract unique subjects across all papers
+        const allSubjects: any[] = [];
+        const seenIds = new Set();
+        
+        syllabusData.forEach((paper: any) => {
+          paper.subjects?.forEach((sub: any) => {
+            if (!seenIds.has(sub.id)) {
+              allSubjects.push(sub);
+              seenIds.add(sub.id);
+            }
+          });
+        });
+        setSubjects(allSubjects);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
@@ -106,17 +117,6 @@ export default function Dashboard() {
       </div>
     );
   }
-
-  const todayTasks = todayPlan?.tasks.slice(0, 3) || [];
-  const continueTopic = syllabus[0]?.subjects[0]?.topics[0];
-  
-  const chartData = [
-    { subject: "History", progress: 45 },
-    { subject: "Polity", progress: 30 },
-    { subject: "Economy", progress: 20 },
-    { subject: "Geography", progress: 65 },
-    { subject: "Telangana", progress: 15 },
-  ];
 
   return (
     <div className="space-y-12 pb-12 max-w-5xl mx-auto py-8">
@@ -144,42 +144,58 @@ export default function Dashboard() {
       </div>
 
       {/* Target Path Section */}
-      <motion.section 
-        initial={{ y: 30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="pt-8"
-      >
-        <div className="bg-card border-2 border-border/50 rounded-[3rem] p-12 relative overflow-hidden group">
-           <div className="absolute top-0 right-0 p-8">
-              <Zap className="h-12 w-12 text-primary/20 fill-primary/10" />
-           </div>
-           
-           <div className="relative z-10 space-y-8">
-              <div className="space-y-2">
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary bg-primary/10 px-4 py-2 rounded-full">Active Pathway</span>
-                <h2 className="text-4xl font-black tracking-tight">{selectedExamId.replace("_", " ")}</h2>
-              </div>
+      {subjects.length > 0 && (
+        <motion.section 
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="space-y-8"
+        >
+        <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3 text-primary">
+                <LayoutGrid className="h-6 w-6" />
+                <span className="text-xs font-black uppercase tracking-[0.2em]">Curriculum Dashboard</span>
+            </div>
+            <div className="bg-primary/10 text-primary px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
+                {selectedExamId.replace("_", " ")}
+            </div>
+        </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-                 <Link href="/study" className="flex items-center justify-between p-8 bg-primary text-primary-foreground rounded-3xl hover:scale-[1.02] transition-all shadow-xl shadow-primary/20">
-                    <div className="space-y-1">
-                       <p className="text-lg font-black italic opacity-90 uppercase tracking-tighter">Enter Syllabus</p>
-                       <p className="text-sm font-bold opacity-80">Start Study Session</p>
-                    </div>
-                    <ArrowRight className="h-8 w-8" />
-                 </Link>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {subjects.map((subject, i) => (
+                <Link key={subject.id} href={`/study/${subject.id}`}>
+                    <motion.div 
+                        whileHover={{ y: -8, scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="bg-card border-2 border-border/50 rounded-[2.5rem] p-8 shadow-sm hover:shadow-xl transition-all hover:border-primary/40 group relative overflow-hidden h-full flex flex-col justify-between"
+                    >
+                        <div className="space-y-6">
+                            <div className="h-14 w-14 rounded-2xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors">
+                                <BookOpen className="h-7 w-7" />
+                            </div>
+                            <div className="space-y-2">
+                                <h3 className="text-2xl font-black tracking-tight leading-none">{subject.title}</h3>
+                                <p className="text-sm text-muted-foreground font-medium leading-tight line-clamp-2">
+                                    {subject.description || `Explore topics and academic modules for ${subject.title}.`}
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div className="mt-8 flex items-center justify-between">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-primary/60">Study Now</span>
+                            <div className="p-3 rounded-xl bg-secondary text-muted-foreground transition-all">
+                                <ArrowRight className="h-5 w-5" />
+                            </div>
+                        </div>
 
-                 <div className="p-8 bg-secondary/30 border border-border/50 rounded-3xl flex items-center justify-center text-center italic text-muted-foreground font-medium">
-                    "Success is the sum of small efforts, repeated day in and day out."
-                 </div>
-              </div>
-           </div>
-
-           {/* Decorative elements */}
-           <div className="absolute -left-12 -bottom-12 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
+                        {/* Decoration */}
+                        <div className="absolute -right-8 -bottom-8 h-32 w-32 rounded-full bg-primary/5 blur-3xl group-hover:bg-primary/10 transition-colors" />
+                    </motion.div>
+                </Link>
+            ))}
         </div>
       </motion.section>
+      )}
     </div>
   );
 }

@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "CrackSarkar",
-  description: "AI-powered exam preparation platform for CrackSarkar Group II, III, and IV.",
+  description: "The ultimate academic manuscript platform for competitive exam preparation. Master every concept with CrackSarkar.",
 };
 
 export default function RootLayout({

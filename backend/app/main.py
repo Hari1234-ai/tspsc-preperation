@@ -21,9 +21,9 @@ try:
     if not db.query(Paper).first():
         print("Seeding production database with initial exams...")
         exams = [
-            Paper(id="Group_II", title="TSPSC Group II", exam_id="Group_II", description="Executive and Non-Executive Posts", order_index=1),
-            Paper(id="Group_III", title="TSPSC Group III", exam_id="Group_III", description="Senior Accountant and Auditor Posts", order_index=2),
-            Paper(id="Group_IV", title="TSPSC Group IV", exam_id="Group_IV", description="Junior Assistant and Typist Posts", order_index=3),
+            Paper(id="Group_II", title="CrackSarkar Group II", exam_id="Group_II", description="Executive and Non-Executive Posts", order_index=1),
+            Paper(id="Group_III", title="CrackSarkar Group III", exam_id="Group_III", description="Senior Accountant and Auditor Posts", order_index=2),
+            Paper(id="Group_IV", title="CrackSarkar Group IV", exam_id="Group_IV", description="Junior Assistant and Typist Posts", order_index=3),
         ]
         db.add_all(exams)
         db.commit()
