@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 import { useUser } from "@/providers/user-context";
 
 const navItems = [
-  { label: "Dashboard", href: "/", icon: Home },
+  { label: "Dashboard", href: "/dashboard", icon: Home },
   { label: "Study", href: "/study", icon: BookOpen }
 ];
 
@@ -29,6 +29,11 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const { profile } = useUser();
+  const isPublicRoute = pathname === "/" || pathname === "/login" || pathname === "/onboarding";
+
+  if (isPublicRoute) {
+    return <main className="min-h-screen w-full bg-background">{children}</main>;
+  }
 
   return (
     <div className="flex h-screen bg-background overflow-hidden relative">
