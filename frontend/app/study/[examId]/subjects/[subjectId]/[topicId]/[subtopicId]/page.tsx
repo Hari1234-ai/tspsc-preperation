@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useUser } from "@/providers/user-context";
-import { getSubtopicDetails, getSubjectDetails } from "@/lib/api";
+import { getSubtopicDetails, getSubjectDetails, getBackendOrigin } from "@/lib/api";
 import { 
   ArrowLeft, 
   CheckCircle2, 
@@ -170,11 +170,10 @@ export default function SubtopicContentViewer() {
                             )}
                             dangerouslySetInnerHTML={{ __html: mod.content }}
                           />
-                        )}
-                        {mod.type === 'image' && (
+                                   {mod.type === 'image' && (
                           <div className="my-8 rounded-3xl overflow-hidden shadow-2xl border border-border">
                              <img 
-                               src={mod.url.startsWith('http') ? mod.url : `http://localhost:8000${mod.url}`} 
+                               src={mod.url.startsWith('http') ? mod.url : `${getBackendOrigin()}${mod.url}`} 
                                alt="Concept visualization" 
                                className="w-full h-auto" 
                              />
@@ -196,7 +195,7 @@ export default function SubtopicContentViewer() {
                                  className="w-full h-full"
                                >
                                  <source 
-                                   src={mod.url.startsWith('http') ? mod.url : `http://localhost:8000${mod.url}`} 
+                                   src={mod.url.startsWith('http') ? mod.url : `${getBackendOrigin()}${mod.url}`} 
                                    type="video/mp4" 
                                  />
                                  Your browser does not support the video tag.
@@ -207,11 +206,12 @@ export default function SubtopicContentViewer() {
                         {mod.type === 'audio' && (
                           <div className="my-8">
                              <AudioPlayer 
-                               url={mod.url.startsWith('http') ? mod.url : `http://localhost:8000${mod.url}`} 
+                               url={mod.url.startsWith('http') ? mod.url : `${getBackendOrigin()}${mod.url}`} 
                                themeColor={subject ? (subjectThemes[subject.title.toUpperCase()]?.color || "#4f46e5") : "#4f46e5"}
                              />
                           </div>
                         )}
+             )}
                       </div>
                     ))}
                  </div>

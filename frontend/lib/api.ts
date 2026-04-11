@@ -5,7 +5,7 @@ import { MOCK_SYLLABUS, MOCK_TODAY_PLAN, MOCK_PROGRESS } from "./mock-data";
 // In Next.js, NEXT_PUBLIC_ env vars are inlined at build time.
 // Using type assertion avoids needing @types/node for `process`.
 declare const process: { env: Record<string, string | undefined> };
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -13,6 +13,12 @@ const apiClient = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const getBackendOrigin = () => {
+    // API_BASE_URL is something like "https://crack-sarkar.onrender.com/api/v1"
+    // We want "https://crack-sarkar.onrender.com"
+    return API_BASE_URL.split('/api')[0];
+};
 
 import G2_P1 from "./data/syllabus/group2/paper1.json";
 import G2_P2 from "./data/syllabus/group2/paper2.json";
