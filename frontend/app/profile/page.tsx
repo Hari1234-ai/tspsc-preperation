@@ -18,7 +18,7 @@ export default function ProfilePage() {
     setSaved(true);
     setTimeout(() => {
       setSaved(false);
-      router.push("/");
+      router.push("/dashboard");
     }, 1500);
   };
 

@@ -19,14 +19,16 @@ interface UserContextType {
   loading: boolean;
   login: (email: string, provider: "email" | "google") => void;
   logout: () => void;
-  completeOnboarding: (profile: UserProfile) => void;
+  updateExam: (exam: string) => void;
+  updateProfile: (profile: UserProfile) => void;
+  setProfile: (profile: UserProfile) => void; // Alias for legacy support
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profile, setProfileState] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
@@ -40,7 +42,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       setUser(JSON.parse(savedAuth));
     }
     if (savedProfile) {
-      setProfile(JSON.parse(savedProfile));
+      setProfileState(JSON.parse(savedProfile));
     }
     setLoading(false);
   }, []);
@@ -66,14 +68,34 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     router.push("/");
   };
 
-  const completeOnboarding = (newProfile: UserProfile) => {
+  const updateProfile = (newProfile: UserProfile) => {
     localStorage.setItem("cracksarkar_profile", JSON.stringify(newProfile));
-    setProfile(newProfile);
+    setProfileState(newProfile);
+  };
+
+  const updateExam = (exam: string) => {
+    if (profile) {
+      updateProfile({ ...profile, exam });
+    }
+  };
+
+  const completeOnboarding = (newProfile: UserProfile) => {
+    updateProfile(newProfile);
     router.push("/dashboard");
   };
 
   return (
-    <UserContext.Provider value={{ user, profile, loading, login, logout, completeOnboarding }}>
+    <UserContext.Provider value={{ 
+      user, 
+      profile, 
+      loading, 
+      login, 
+      logout, 
+      completeOnboarding, 
+      updateProfile, 
+      updateExam,
+      setProfile: updateProfile 
+    }}>
       {children}
     </UserContext.Provider>
   );
