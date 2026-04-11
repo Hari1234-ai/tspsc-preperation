@@ -19,10 +19,23 @@ from .db.session import SessionLocal
 from .db.base import Paper, Subject, Topic, Subtopic, paper_subject_association, subject_topic_association
 
 def perform_syllabus_repair(db):
-    """Force a clean, high-fidelity restoration of the syllabus hierarchy."""
+    """Deep Clean: Wipes existing syllabus data and restores a clean, high-fidelity hierarchy."""
     try:
-        print("🚀 [REPAIR] Starting full syllabus hierarchy sync...")
+        print("🚀 [REPAIR] Starting Deep Clean and Hierarchy Restoration...")
         
+        # 0. Wipe existing data for a clean slate (Crucial for production recovery)
+        db.execute(paper_subject_association.delete())
+        db.execute(subject_topic_association.delete())
+        from .db.base import topic_subtopic_association, subtopic_concept_association
+        db.execute(topic_subtopic_association.delete())
+        db.execute(subtopic_concept_association.delete())
+        
+        db.query(Subtopic).delete()
+        db.query(Topic).delete()
+        db.query(Subject).delete()
+        db.query(Paper).delete()
+        db.flush()
+
         # 1. High-level Papers
         paper_data = [
             ("P1", "Paper I - General Studies & General Abilities", 1),
